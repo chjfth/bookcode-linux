@@ -8,7 +8,7 @@
 * the file COPYING.gpl-v3 for details.                                    *
 \*************************************************************************/
 
-/* Listing 34-2 */
+/* Listing 34-2 @ page 706 */
 
 /* t_setsid.c
 
