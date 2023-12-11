@@ -81,7 +81,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
   <PropertyGroup Label="Configuration">
-    <RemoteRootDir>$HOME/projects/tlpi-book</RemoteRootDir>
+    <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
   </PropertyGroup>
   
   <!-- Debug or Release -->
@@ -152,6 +152,7 @@
     <!-- [20230326.R2] Chj: Workaround for a special project trait on VC2019 VSLinux. 
       If .sln is in parent path of .vcxproj, Remote_GCC_1_0 tries to launch wrong exe path on Linux. So we need this.
     -->
+    <RemoteDeployDir Condition="$(Configuration.EndsWith('-remote-gcc'))">$(RemoteRootDir)/$(TargetName)</RemoteDeployDir>
     <RemoteDebuggerCommand Condition="$(Configuration.EndsWith('-remote-gcc'))">$(RemoteDeployDir)/bin.linux/$(Platform)/$(Configuration)/$(TargetName)$(TargetExt)</RemoteDebuggerCommand>
   </PropertyGroup>
 
@@ -179,7 +180,7 @@
       <AdditionalIncludeDirectories>../lib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>;;$(RemoteRootDir)/lib/bin.linux/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>;;$HOME/projects/tlpi-book/lib/bin.linux/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>;;-ltlpi;%(AdditionalDependencies)</AdditionalDependencies>
       <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
     </Link>
