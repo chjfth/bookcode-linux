@@ -26,13 +26,17 @@
 #include <string.h>     /* Commonly used string-handling functions */
 #include <stdbool.h>    /* 'bool' type plus 'true' and 'false' constants */
 
+#ifdef __cplusplus
+extern"C" {
+#endif
+
 #include "get_num.h"    /* Declares our functions for handling numeric
                            arguments (getInt(), getLong()) */
 
 #include "error_functions.h"  /* Declares our error-handling functions */
 
-/* Unfortunately some UNIX implementations define FALSE and TRUE -
-   here we'll undefine them */
+                           /* Unfortunately some UNIX implementations define FALSE and TRUE -
+                              here we'll undefine them */
 
 #ifdef TRUE
 #undef TRUE
@@ -42,15 +46,15 @@
 #undef FALSE
 #endif
 
-typedef enum { FALSE, TRUE } Boolean;
+    typedef enum { FALSE, TRUE } Boolean;
 
 #define min(m,n) ((m) < (n) ? (m) : (n))
 #define max(m,n) ((m) > (n) ? (m) : (n))
 
-/* Some systems don't define 'socklen_t' */
+    /* Some systems don't define 'socklen_t' */
 
 #if defined(__sgi)
-typedef int socklen_t;
+    typedef int socklen_t;
 #endif
 
 #if defined(__sun)
@@ -58,7 +62,7 @@ typedef int socklen_t;
 #endif
 
 #if ! defined(O_ASYNC) && defined(FASYNC)
-/* Some systems define FASYNC instead of O_ASYNC */
+    /* Some systems define FASYNC instead of O_ASYNC */
 #define O_ASYNC FASYNC
 #endif
 
@@ -81,4 +85,10 @@ typedef int socklen_t;
 #define sival_ptr sigval_ptr
 #endif
 
+
+#ifdef __cplusplus
+} // extern"C" {
+#endif
+
+	
 #endif
