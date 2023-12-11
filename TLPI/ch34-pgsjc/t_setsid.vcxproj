@@ -81,7 +81,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
   <PropertyGroup Label="Configuration">
-    <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
+    <RemoteRootDir>$HOME/projects/tlpi-book</RemoteRootDir>
   </PropertyGroup>
   
   <!-- Debug or Release -->
@@ -179,8 +179,8 @@
       <AdditionalIncludeDirectories>../lib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>;;./XXYYZZ;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>;;-lrt;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;;$(RemoteRootDir)/lib/bin.linux/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>;;-ltlpi;%(AdditionalDependencies)</AdditionalDependencies>
       <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
     </Link>
     <!-- Better build.log file naming -->

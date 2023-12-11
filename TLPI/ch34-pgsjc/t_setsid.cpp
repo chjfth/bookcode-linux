@@ -27,11 +27,18 @@ main(int argc, char *argv[])
     if (fork() != 0)            /* Exit if parent, or on error */
         _exit(EXIT_SUCCESS);
 
+    long pid = getpid();
+    long pgid = getpgrp();
+    long sid = getsid(0);
+
+    printf("[Before child setsid()] PID=%ld, PGID=%ld, SID=%ld\n",
+        pid, pgid, sid);
+	
     if (setsid() == -1)
         errExit("setsid");
 
-    printf("PID=%ld, PGID=%ld, SID=%ld\n", (long) getpid(),
-            (long) getpgrp(), (long) getsid(0));
+    printf("[After  child setsid()] PID=%ld, PGID=%ld, SID=%ld\n", 
+        (long) getpid(), (long) getpgrp(), (long) getsid(0));
 
     /* Following should fail, since we don't have a controlling terminal */
 
