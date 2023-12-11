@@ -29,7 +29,7 @@ Unpacking the code tarball
 
 Unpacking the tarball with the command
 
-        tar xfz tlpi-YYMMDD-xxxx.tar.gz
+    tar xfz tlpi-YYMMDD-xxxx.tar.gz
 
 will create a directory tree 'tlpi-xxxx' containing all of the source code
 ("xxxx" will be either "dist" or "book" depending on which version of the
@@ -56,17 +56,17 @@ libraries are installed.
 
 Debian, Ubuntu, and similar distributions:
 
-        libcap-dev
-        libacl1-dev
-        libselinux1-dev
-	libseccomp-dev
+    libcap-dev
+    libacl1-dev
+    libselinux1-dev
+    libseccomp-dev
 
 RPM-based distributions (Fedora, OpenSUSE, CentOS, etc.):
 
-        libcap-devel
-        libacl-devel
-        libselinux-devel
-	libseccomp-devel
+    libcap-devel
+    libacl-devel
+    libselinux-devel
+    libseccomp-devel
 
 If you are using Arch or Gentoo, then I'm sure you can work out what to
 do, based on the above information.
