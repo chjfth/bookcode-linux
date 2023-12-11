@@ -87,6 +87,16 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     
     <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
+    
+    <!-- Do this so that on Linux machine, .c and .h files here are copied to 
+         ~/projects/tlpi-book/lib
+      instead of 
+         ~/projects/tlpi-book/00_libtlpi
+      
+      We use the subdir name `lib` so that it matches TLPI's source code dir structure.
+    -->
+    <RemoteProjectRelDir>lib</RemoteProjectRelDir>
+    
   </PropertyGroup>
   
   <!-- Debug or Release -->
