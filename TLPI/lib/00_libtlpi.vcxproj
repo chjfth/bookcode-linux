@@ -81,9 +81,12 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 
   <PropertyGroup Label="Configuration">
+
     <!-- This tells we need to create a static lib xxx.a , not xxx.out executable. 
          This must be set *after* Microsoft.Cpp.Default.props . -->
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    
+    <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
   </PropertyGroup>
   
   <!-- Debug or Release -->
