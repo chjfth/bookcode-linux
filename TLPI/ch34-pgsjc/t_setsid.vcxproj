@@ -148,13 +148,20 @@
       into t_setsid.vcxproj.user to make it work.
     -->
     <DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>
-
-    <!-- [20230326.R2] Chj: Workaround for a special project trait on VC2019 VSLinux. 
-      If .sln is in parent path of .vcxproj, Remote_GCC_1_0 tries to launch wrong exe path on Linux. So we need this.
-    -->
-    <RemoteDeployDir Condition="$(Configuration.EndsWith('-remote-gcc'))">$(RemoteRootDir)/$(TargetName)</RemoteDeployDir>
-    <RemoteDebuggerCommand Condition="$(Configuration.EndsWith('-remote-gcc'))">$(RemoteDeployDir)/bin.linux/$(Platform)/$(Configuration)/$(TargetName)$(TargetExt)</RemoteDebuggerCommand>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="$(Configuration.EndsWith('-remote-gcc'))">
+    <!-- [20230326.R2] Chj: Workaround for a special project trait on VC2019 VSLinux. 
+      If .sln is in parent path of .vcxproj, Remote_GCC_1_0 tries to launch wrong exe path on Linux. 
+      So we need to explicitly assign RemoteDebuggerCommand .
+      
+      [20231211.R3] And because for TLPI, we set TargetName different than ProjectName,
+      so we need to explicitly assign RemoteDeployDir .
+    -->
+    <RemoteDeployDir>$(RemoteRootDir)/$(TargetName)</RemoteDeployDir>
+    <RemoteDebuggerCommand>$(RemoteDeployDir)/bin.linux/$(Platform)/$(Configuration)/$(TargetName)$(TargetExt)</RemoteDebuggerCommand>
+  </PropertyGroup>
+
 
   <!-- 
   	You may need to add this to your .vcxproj.user, 
