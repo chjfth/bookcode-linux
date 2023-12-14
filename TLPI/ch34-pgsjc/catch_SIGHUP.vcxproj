@@ -66,9 +66,9 @@
   
   
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{cccccccc-0000-0000-0000-202312150001}</ProjectGuid>
-    <ProjectName>0x.00_exe_template</ProjectName>
-    <TargetName>00_exe_template</TargetName>
+    <ProjectGuid>{20231215-0000-0000-0000-012009000001}</ProjectGuid>
+    <ProjectName>03.catch_SIGHUP</ProjectName>
+    <TargetName>catch_SIGHUP</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -154,12 +154,12 @@
 
     <!-- [20230326.R1] This is to workround a possible VS2019 16.11 VSLinux bug: 
       When launching WSL_1_0 exe, VSIDE will go hard to launch exe inside:
-        /mnt/d/gitw/Templates/vs2019/00_exe_template/bin/x64/Debug-WSL-gcc
+        /mnt/d/gitw/Templates/vs2019/catch_SIGHUP/bin/x64/Debug-WSL-gcc
       instead of the correct:
-        /mnt/d/gitw/Templates/vs2019/00_exe_template/bin.linux/x64/Debug-WSL-gcc
+        /mnt/d/gitw/Templates/vs2019/catch_SIGHUP/bin.linux/x64/Debug-WSL-gcc
       .
       Without this workaround, user needs to set the `<DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>` 
-      into 00_exe_template.vcxproj.user to make it work.
+      into catch_SIGHUP.vcxproj.user to make it work.
     -->
     <DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>
 
@@ -234,7 +234,7 @@
     Source file list:
    -->
   <ItemGroup>
-    <ClCompile Include="00_exe_template.cpp" />
+    <ClCompile Include="catch_SIGHUP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <!-- 
