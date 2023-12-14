@@ -54,13 +54,17 @@
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  
   <!-- User project properties -->
+  
   <PropertyGroup Condition="$(Configuration.EndsWith('-WSL-gcc'))" Label="Globals">
     <PlatformToolset>WSL_1_0</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.EndsWith('-remote-gcc'))" Label="Globals">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
   </PropertyGroup>
+  
+  
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20231214-0000-0000-0000-222306000001}</ProjectGuid>
     <ProjectName>02.t_setsid</ProjectName>
@@ -71,10 +75,10 @@
     <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
     <LinuxProjectType>{D51BCBC9-82E9-4017-911E-C93873C4EA2B}</LinuxProjectType>
   </PropertyGroup>
+
   <!-- Microsoft.Cpp.Default.props 
   	For Linux .vcxproj, this should be after above "global" Properties. -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-<<<<<<< HEAD
   
   <PropertyGroup Label="Configuration">
 
@@ -82,12 +86,6 @@
          (This must be set *after* Microsoft.Cpp.Default.props) -->
     <!-- <ConfigurationType>StaticLibrary</ConfigurationType>  --> 
     
-=======
-  <PropertyGroup Label="Configuration">
-    <!-- If we need to create a static lib xxx.a , not xxx.out executable, enable this:  
-         (This must be set *after* Microsoft.Cpp.Default.props) -->
-    <!-- <ConfigurationType>StaticLibrary</ConfigurationType>  -->
->>>>>>> 622224ed29bfeb9263502c359ddb18c88b27f035
     <!-- If you want to customize 'cast-folder' for this project,  change RemoteRootDir and RemoteProjectRelDir,
          Source code files in your .vcxproj will be cast-copy to Linux machine's 
          $(RemoteRootDir)/$(RemoteProjectRelDir) folder. 
@@ -95,11 +93,9 @@
     -->
     <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
     <RemoteProjectRelDir>$(ProjectName)</RemoteProjectRelDir>
-<<<<<<< HEAD
     
-=======
->>>>>>> 622224ed29bfeb9263502c359ddb18c88b27f035
   </PropertyGroup>
+  
   <!-- Debug or Release -->
   <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -117,7 +113,9 @@
   <ImportGroup Label="PropertySheets">
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  
   <!-- Always use target-platform-prefixed gcc/g++ command lines, so that WSL can cope with multiple target platforms. -->
+  
   <PropertyGroup Condition="'$(Platform)'=='x86'">
     <!-- On Win10 WSL, we should have x86 and/or x64 compiler installed. 
         Using Ubuntu Linux 22.04 for example:
@@ -145,12 +143,15 @@
     <RemoteLdToolExe>aarch64-linux-gnu-g++</RemoteLdToolExe>
   </PropertyGroup>
   <!-- Pending Q: when to use arm-linux-gnueabihf-g++ ? -->
+  
   <!-- Adaptive .obj/.exe/.pdb output folder structure -->
+  
   <PropertyGroup>
-    <IntDir>$(ProjectDir)obj.linux\$(Platform)\$(Configuration)\</IntDir>
+     <IntDir>$(ProjectDir)obj.linux\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin.linux\$(Platform)\$(Configuration)\</OutDir>
     <RemoteIntRelDir>$(RemoteProjectRelDir)/obj.linux/$(Platform)/$(Configuration)</RemoteIntRelDir>
     <RemoteOutRelDir>$(RemoteProjectRelDir)/bin.linux/$(Platform)/$(Configuration)</RemoteOutRelDir>
+
     <!-- [20230326.R1] This is to workround a possible VS2019 16.11 VSLinux bug: 
       When launching WSL_1_0 exe, VSIDE will go hard to launch exe inside:
         /mnt/d/gitw/Templates/vs2019/t_setsid/bin/x64/Debug-WSL-gcc
@@ -161,19 +162,13 @@
       into t_setsid.vcxproj.user to make it work.
     -->
     <DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>
-<<<<<<< HEAD
 
-=======
->>>>>>> 622224ed29bfeb9263502c359ddb18c88b27f035
     <!-- [20230326.R2] Chj: Workaround for a special project trait on VC2019 VSLinux. 
       If .sln is in parent path of .vcxproj, Remote_GCC_1_0 tries to launch wrong exe path on Linux. So we need this.
     -->
     <RemoteDebuggerCommand Condition="$(Configuration.EndsWith('-remote-gcc'))">$(RemoteDeployDir)/bin.linux/$(Platform)/$(Configuration)/$(TargetName)$(TargetExt)</RemoteDebuggerCommand>
   </PropertyGroup>
-<<<<<<< HEAD
 
-=======
->>>>>>> 622224ed29bfeb9263502c359ddb18c88b27f035
   <!-- 
   	You may need to add this to your .vcxproj.user, 
   	to make final executable file have x(execution) bit on Linux.
@@ -186,6 +181,8 @@
      </PropertyGroup>
   	
   -->
+
+
   <!-- 
   	Compiler/Linker Behavior Settings : shared 
   -->
@@ -196,13 +193,9 @@
       <AdditionalIncludeDirectories>../lib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-<<<<<<< HEAD
 
       <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       
-=======
-      <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
->>>>>>> 622224ed29bfeb9263502c359ddb18c88b27f035
       <!-- To link a library(ncurses, pthread), pick either form below: -->
       <AdditionalDependencies>;;-lncurses;%(AdditionalDependencies)</AdditionalDependencies>
       <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
@@ -213,6 +206,7 @@
       <Path>$(IntDir)__$(MSBuildProjectName).build.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
+  
   <!-- 
   	Compiler Behavior Settings : Debug 
   -->
@@ -224,6 +218,7 @@
     <Link>
     </Link>
   </ItemDefinitionGroup>
+  
   <!-- 
   	Compiler Behavior Settings : Release 
   -->
@@ -234,6 +229,7 @@
     <Link>
     </Link>
   </ItemDefinitionGroup>
+  
   <!-- 
     Source file list:
    -->
@@ -244,25 +240,20 @@
     <!-- 
     <ClInclude Include="ps_headers.h" />
      -->
-    <ProjectReference Include="..\lib\00_libtlpi.vcxproj">
-      <Project>{20231214-0000-0000-0000-211843000001}</Project>
-    </ProjectReference>
   </ItemGroup>
-<<<<<<< HEAD
   <ItemGroup>
     <ProjectReference Include="..\lib\00_libtlpi.vcxproj">
       <Project>{20231214-0000-0000-0000-211843000001}</Project>
     </ProjectReference>
   </ItemGroup>
 
-=======
->>>>>>> 622224ed29bfeb9263502c359ddb18c88b27f035
   <!-- MSBuild system stock Cpp.targets -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+
   <!-- import VSPG start -->
-  <!-- 
+								  <!-- 
   <PropertyGroup>
     <VSPG_BootsDir_NoTBS>..\_VSPG\boots</VSPG_BootsDir_NoTBS>
   </PropertyGroup>
@@ -271,11 +262,14 @@
   </ImportGroup>
   									-->
   <!-- import VSPG end -->
+
   <!-- below code is just for test -->
   <Target Name="test1_PreBuild" BeforeTargets="PreBuildEvent">
-    <Message Text="Pre: ResolvedRemoteTarget=$(ResolvedRemoteTarget)" />
+    <Message Text='Pre: ResolvedRemoteTarget=$(ResolvedRemoteTarget)'/>
   </Target>
   <Target Name="test2_PostBuild" AfterTargets="PostBuildEvent">
-    <Message Text="Post: ResolvedRemoteTarget=$(ResolvedRemoteTarget)" />
+    <Message Text='Post: ResolvedRemoteTarget=$(ResolvedRemoteTarget)'/>
   </Target>
+  
+  
 </Project>
