@@ -66,7 +66,7 @@
   
   
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{20231211-0000-0000-0000-092306000001}</ProjectGuid>
+    <ProjectGuid>{20231214-0000-0000-0000-211843000001}</ProjectGuid>
     <ProjectName>00_libtlpi</ProjectName>
     <TargetName>libtlpi</TargetName>
     <Keyword>Linux</Keyword>
@@ -79,22 +79,19 @@
   <!-- Microsoft.Cpp.Default.props 
   	For Linux .vcxproj, this should be after above "global" Properties. -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-
+  
   <PropertyGroup Label="Configuration">
 
-    <!-- This tells we need to create a static lib xxx.a , not xxx.out executable. 
-         This must be set *after* Microsoft.Cpp.Default.props . -->
+    <!-- If we need to create a static lib xxx.a , not xxx.out executable, enable this:  
+         (This must be set *after* Microsoft.Cpp.Default.props) -->
     <ConfigurationType>StaticLibrary</ConfigurationType>
     
-    <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
-    
-    <!-- Do this so that on Linux machine, .c and .h files here are copied to 
-         ~/projects/tlpi-book/lib
-      instead of 
-         ~/projects/tlpi-book/00_libtlpi
-      
-      We use the subdir name `lib` so that it matches TLPI's source code dir structure.
+    <!-- If you want to customize 'cast-folder' for this project,  change RemoteRootDir and RemoteProjectRelDir,
+         Source code files in your .vcxproj will be cast-copy to Linux machine's 
+         $(RemoteRootDir)/$(RemoteProjectRelDir) folder. 
+         By default(when not explicitly set), the cast-copy destination will be ~/projects/$(ProjectName) . 
     -->
+    <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
     <RemoteProjectRelDir>lib</RemoteProjectRelDir>
     
   </PropertyGroup>
@@ -106,7 +103,9 @@
   <PropertyGroup Condition="$(Configuration.StartsWith('Release'))" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
   </PropertyGroup>
+  
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -191,13 +190,16 @@
     <ClCompile>
       <CppLanguageStandard>c++14</CppLanguageStandard>
       <PreprocessorDefinitions>;;_XOPEN_SOURCE=600;_DEFAULT_SOURCE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <!-- 
-      <AdditionalLibraryDirectories>;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-       -->
-      <AdditionalDependencies>;;-lpthread;%(AdditionalDependencies)</AdditionalDependencies>
+
+      <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      
+      <!-- To link a library(ncurses, pthread), pick either form below: -->
+      <AdditionalDependencies>;;-lncurses;%(AdditionalDependencies)</AdditionalDependencies>
+      <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
+      
     </Link>
     <!-- Better build.log file naming -->
     <BuildLog>
