@@ -31,32 +31,36 @@ handler(int sig)
 int
 main(int argc, char *argv[])
 {
-    pid_t childPid;
-    struct sigaction sa;
+	pid_t childPid;
+	struct sigaction sa;
 
-    setbuf(stdout, NULL);       /* Make stdout unbuffered */
+	setbuf(stdout, NULL);       /* Make stdout unbuffered */
 
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sa.sa_handler = handler;
-    if (sigaction(SIGHUP, &sa, NULL) == -1)
-        errExit("sigaction");
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = handler;
+	if (sigaction(SIGHUP, &sa, NULL) == -1)
+		errExit("sigaction");
 
-    childPid = fork();
-    if (childPid == -1)
-        errExit("fork");
+	childPid = fork();
+	if (childPid == -1)
+		errExit("fork");
 
-    if (childPid == 0 && argc > 1)
-        if (setpgid(0, 0) == -1)        /* Move to new process group */
-            errExit("setpgid");
+	if (childPid == 0 && argc > 1)
+	{
+		usleep(100*1000); // chj: Child sleeps 0.1s, so that parent goes first.
+		
+		if (setpgid(0, 0) == -1)        /* Move to new process group */
+			errExit("setpgid");
+	}
 
-    printf("PID=%ld; PPID=%ld; PGID=%ld; SID=%ld\n", (long) getpid(),
-            (long) getppid(), (long) getpgrp(), (long) getsid(0));
+	printf("PID=%ld; PPID=%ld; PGID=%ld; SID=%ld\n", (long) getpid(),
+			(long) getppid(), (long) getpgrp(), (long) getsid(0));
 
-    alarm(60);                  /* An unhandled SIGALRM ensures this process
-                                   will die if nothing else terminates it */
-    for (;;) {                  /* Wait for signals */
-        pause();
-        printf("%ld: caught SIGHUP\n", (long) getpid());
-    }
+	alarm(60);                  /* An unhandled SIGALRM ensures this process
+								   will die if nothing else terminates it */
+	for (;;) {                  /* Wait for signals */
+		pause();
+		printf("%ld: caught SIGHUP\n", (long) getpid());
+	}
 }
