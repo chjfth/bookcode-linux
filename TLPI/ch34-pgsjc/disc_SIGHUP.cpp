@@ -31,9 +31,10 @@
 static void             /* Handler for SIGHUP */
 handler(int sig)
 {
-	printf("PID %ld: caught signal %2d (%s)\n", (long) getpid(),
-			sig, strsignal(sig));
-						/* UNSAFE (see Section 21.1.2) */
+	printf("PID %ld: caught signal %2d (%s)\n",                     // (1)
+		(long)getpid(),
+		sig, strsignal(sig));
+		/* UNSAFE printf (see Section 21.1.2), but OK for trivial use. */
 }
 
 int
@@ -61,8 +62,11 @@ main(int argc, char *argv[])
 
 		if (childPid == 0)             /* If child...  */
 		{
+			usleep(100 * 1000); // chj: Child sleeps 0.1s, so that parent goes first.
+
 			if (argv[j][0] == 'd')     /* 'd' --> to different pgrp   (3) */
 			{
+				usleep(100 * 1000);    // 'd'-child sleeps more 0.1s
 				if (setpgid(0, 0) == -1)
 					errExit("setpgid");
 			}
