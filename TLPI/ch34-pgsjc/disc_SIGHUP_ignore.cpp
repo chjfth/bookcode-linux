@@ -4,7 +4,18 @@ Chj: This file differs fro disc_SIGHUP.cpp in that:
 The parent process deliberately ignores SIGHUP, and we want to find out
 whether STO-disconnect will kill the parent process.
 
-The answer is: ...
+The answer is: The behavior is a bit complex.
+* The SIGHUP is NOT lost, but "cached".
+* When the parent process(me) exits(main returns 0), the cached
+  SIGHUP is then delivered to other foreground processes.
+
+By running
+
+   exec ./disc_SIGHUP_ignore.out d s s > sig2.log 2>&1
+
+from a telnet/ssh terminal, then close the terminal(PuTTY) window,
+and after 60 seconds has passed, sig2.log has something like this:
+
 
 */
 #define _GNU_SOURCE     /* Get strsignal() declaration from <string.h> */
@@ -45,8 +56,6 @@ handler(int sig)
 int
 main(int argc, char *argv[])
 {
-	printf("sizeof(long)=%d ......\n", (int)sizeof(long));
-	
 	pid_t parentPid = 0, childPid = 0;
 	int j = 0;
 	struct sigaction sa = {};
