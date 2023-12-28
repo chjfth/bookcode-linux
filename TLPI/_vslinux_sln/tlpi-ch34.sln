@@ -13,7 +13,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04.disc_SIGHUP", "..\ch34-p
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05.job_mon", "..\ch34-pgsjc\job_mon.vcxproj", "{20231215-0000-0000-0000-013215000001}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04a.disc_SIGHUP", "..\ch34-pgsjc\disc_SIGHUP_ignore.vcxproj", "{20231215-0000-0000-0000-01283200000A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04a.disc_SIGHUP_ignore", "..\ch34-pgsjc\disc_SIGHUP_ignore.vcxproj", "{20231215-0000-0000-0000-01283200000A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
