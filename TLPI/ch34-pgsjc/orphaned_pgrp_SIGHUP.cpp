@@ -65,6 +65,7 @@ main(int argc, char *argv[])
 	printf("parent: PID=%ld, PPID=%ld, PGID=%ld, SID=%ld\n",
 			(long) getpid(), (long) getppid(),
 			(long) getpgrp(), (long) getsid(0));
+	printf("\n");
 
 	/* Create one child for each command-line argument */
 
@@ -81,10 +82,12 @@ main(int argc, char *argv[])
 
 			if (argv[j][0] == 's') {    /* Stop via signal */
 				printf("PID=%ld stopping\n", (long) getpid());       // (4)
+				printf("\n");
 				raise(SIGSTOP);
 			} else {                    /* Wait for signal */
 				alarm(60);              /* So we die if not SIGHUPed */
 				printf("PID=%ld pausing\n", (long) getpid());
+				printf("\n");
 				pause();                                             // (5)
 			}
 
@@ -93,11 +96,14 @@ main(int argc, char *argv[])
 		default:        /* Parent carries on round loop */
 			break;
 		}
+
+		usleep(100 * 1000); // Chj: some delay to avoid output interleaving
 	}
 
 	/* Parent falls through to here after creating all children */
 
 	sleep(3);                    // Give children a chance to start     (7)
 	printf("parent exiting\n");
+	printf("\n");
 	exit(EXIT_SUCCESS);          // And orphan them and their group     (8)
 }
