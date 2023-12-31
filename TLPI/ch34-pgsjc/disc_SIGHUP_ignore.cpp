@@ -23,12 +23,7 @@ and after 60 seconds has passed, sig2.log has something like this:
 #include <string.h>
 #include <signal.h>
 #include "tlpi_hdr.h"
-
-static long
-now_time()
-{
-	return (long)time(nullptr);
-}
+#include "PrnTs.h"
 
 static void
 Ignore_SIGHUP_to_me()
@@ -44,8 +39,7 @@ Ignore_SIGHUP_to_me()
 static void             /* Handler for SIGHUP */
 handler(int sig)
 {
-	printf("[%ld] PID %ld: caught signal %2d (%s)\n",                  // (1)
-		now_time(),
+	PrnTs("PID %ld: caught signal %2d (%s)",                  // (1)
 		(long)getpid(),
 		sig, strsignal(sig));
 		/* UNSAFE printf (see Section 21.1.2), but OK for trivial use. */
@@ -66,8 +60,8 @@ main(int argc, char *argv[])
 	setbuf(stdout, NULL);              /* Make stdout unbuffered */
 
 	parentPid = getpid();
-	printf("PID of parent process is:       %ld\n", (long) parentPid);
-	printf("Foreground process group ID is: %ld\n",
+	PrnTs("PID of parent process is:       %ld", (long) parentPid);
+	PrnTs("Foreground process group ID is: %ld",
 			(long) tcgetpgrp(STDIN_FILENO));
 
 	for (j = 1; j < argc; j++)         /* Create child processes      (2) */
@@ -101,7 +95,7 @@ main(int argc, char *argv[])
 	if(childPid!=0) // for parent process
 	{
 		Ignore_SIGHUP_to_me();
-		printf("[%ld] Parent process(me) now ignores SIGHUP.\n", now_time());
+		PrnTs("Parent process(me) now ignores SIGHUP.");
 	}
 
 	/* All processes fall through to here */
@@ -117,8 +111,8 @@ main(int argc, char *argv[])
 
 		if(new_paparent!=old_paparent)
 		{
-			printf("[%ld] [Note]Parent process's parent PID has changed from %ld to %ld.\n",
-				now_time(), (long)old_paparent, (long)new_paparent);
+			PrnTs("[Note]Parent process's parent PID has changed from %ld to %ld.",
+				(long)old_paparent, (long)new_paparent);
 		}
 	}
 	else
@@ -126,7 +120,7 @@ main(int argc, char *argv[])
 		// Child processes do:
 		alarm(60);      /* Ensure each process eventually terminates      (5) */
 
-		printf("[%ld] PID=%ld PGID=%ld\n", now_time(), (long)getpid(), (long)getpgrp()); // (6)
+		PrnTs("PID=%ld PGID=%ld", (long)getpid(), (long)getpgrp()); // (6)
 		for (;;)
 			pause();        /* Wait for signals                           (7) */
 	}
