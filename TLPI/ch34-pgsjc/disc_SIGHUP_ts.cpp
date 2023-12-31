@@ -1,0 +1,91 @@
+/*************************************************************************\
+*                  Copyright (C) Michael Kerrisk, 2020.                   *
+*                                                                         *
+* This program is free software. You may use, modify, and redistribute it *
+* under the terms of the GNU General Public License as published by the   *
+* Free Software Foundation, either version 3 or (at your option) any      *
+* later version. This program is distributed without any warranty.  See   *
+* the file COPYING.gpl-v3 for details.                                    *
+\*************************************************************************/
+
+/* Listing 34-4 */
+
+/* disc_SIGHUP.c
+
+   This program demonstrates that when a "terminal disconnect" occurs, SIGHUP
+   is sent to all the members of the foreground process group for this terminal.
+
+   Try using the following command to run this program in an X-window, and then
+   closing the window:
+
+        exec disc_SIGHUP > sig.log 2>&1
+
+   (Since the above will replace the shell with this program, it will be the
+   controlling process for the terminal.)
+*/
+#define _GNU_SOURCE     /* Get strsignal() declaration from <string.h> */
+#include <string.h>
+#include <signal.h>
+#include "tlpi_hdr.h"
+#include "PrnTs.h"
+
+static void             /* Handler for SIGHUP */
+handler(int sig)
+{
+	PrnTs("PID %ld: caught signal %2d (%s)",                     // (1)
+		(long)getpid(),
+		sig, strsignal(sig));
+		/* UNSAFE printf (see Section 21.1.2), but OK for trivial use. */
+}
+
+int
+main(int argc, char *argv[])
+{
+	pid_t parentPid = 0, childPid = 0;
+	int j = 0;
+	struct sigaction sa = {};
+
+	if (argc < 2 || strcmp(argv[1], "--help") == 0)
+		usageErr("%s {d|s}... [ > sig.log 2>&1 ]\n", argv[0]);
+
+	setbuf(stdout, NULL);              /* Make stdout unbuffered */
+
+	parentPid = getpid();
+	PrnTs("PID of parent process is:       %ld", (long) parentPid);
+	PrnTs("Foreground process group ID is: %ld",
+			(long) tcgetpgrp(STDIN_FILENO));
+
+	for (j = 1; j < argc; j++)         /* Create child processes      (2) */
+	{
+		childPid = fork();
+		if (childPid == -1)
+			errExit("fork");
+
+		if (childPid == 0)             /* If child...  */
+		{
+			usleep(100 * 1000); // chj: Child sleeps 0.1s, so that parent goes first.
+
+			if (argv[j][0] == 'd')     /* 'd' --> to different pgrp   (3) */
+			{
+				usleep(100 * 1000);    // 'd'-child sleeps more 0.1s
+				if (setpgid(0, 0) == -1)
+					errExit("setpgid");
+			}
+
+			sigemptyset(&sa.sa_mask);
+			sa.sa_flags = 0;
+			sa.sa_handler = handler;
+			if (sigaction(SIGHUP, &sa, NULL) == -1) //                (4)
+				errExit("sigaction");
+			break;                      /* Child exits loop */
+		}
+	}
+
+	/* All processes fall through to here */
+
+	alarm(60);      /* Ensure each process eventually terminates      (5) */
+
+	PrnTs("PID=%ld PGID=%ld", (long)getpid(), (long)getpgrp()); // (6)
+	for (;;)
+		pause();        /* Wait for signals                           (7) */
+}
