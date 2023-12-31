@@ -66,9 +66,9 @@
   
   
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{20231214-0000-0000-0000-211843000001}</ProjectGuid>
-    <ProjectName>00_libtlpi</ProjectName>
-    <TargetName>libtlpi</TargetName>
+    <ProjectGuid>{20231215-0000-0000-0000-01200900000A}</ProjectGuid>
+    <ProjectName>03a.catch_SIGHUP_ts</ProjectName>
+    <TargetName>catch_SIGHUP_ts</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -84,7 +84,7 @@
 
     <!-- If we need to create a static lib xxx.a , not xxx.out executable, enable this:  
          (This must be set *after* Microsoft.Cpp.Default.props) -->
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <!-- <ConfigurationType>StaticLibrary</ConfigurationType>  --> 
     
     <!-- If you want to customize 'cast-folder' for this project,  change RemoteRootDir and RemoteProjectRelDir,
          Source code files in your .vcxproj will be cast-copy to Linux machine's 
@@ -92,7 +92,7 @@
          By default(when not explicitly set), the cast-copy destination will be ~/projects/$(ProjectName) . 
     -->
     <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
-    <RemoteProjectRelDir>lib</RemoteProjectRelDir>
+    <RemoteProjectRelDir>$(ProjectName)</RemoteProjectRelDir>
     
   </PropertyGroup>
   
@@ -147,19 +147,20 @@
   <!-- Adaptive .obj/.exe/.pdb output folder structure -->
   
   <PropertyGroup>
-     <IntDir>$(ProjectDir)obj.linux\$(Platform)\$(Configuration)\</IntDir>
+    <objdirsuffix Condition="$(SolutionName)!=$(ProjectName)">.$(ProjectName)</objdirsuffix>
+     <IntDir>$(ProjectDir)obj.linux$(objdirsuffix)\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin.linux\$(Platform)\$(Configuration)\</OutDir>
     <RemoteIntRelDir>$(RemoteProjectRelDir)/obj.linux/$(Platform)/$(Configuration)</RemoteIntRelDir>
     <RemoteOutRelDir>$(RemoteProjectRelDir)/bin.linux/$(Platform)/$(Configuration)</RemoteOutRelDir>
 
     <!-- [20230326.R1] This is to workround a possible VS2019 16.11 VSLinux bug: 
       When launching WSL_1_0 exe, VSIDE will go hard to launch exe inside:
-        /mnt/d/gitw/Templates/vs2019/00_libtlpi/bin/x64/Debug-WSL-gcc
+        /mnt/d/gitw/Templates/vs2019/catch_SIGHUP/bin/x64/Debug-WSL-gcc
       instead of the correct:
-        /mnt/d/gitw/Templates/vs2019/00_libtlpi/bin.linux/x64/Debug-WSL-gcc
+        /mnt/d/gitw/Templates/vs2019/catch_SIGHUP/bin.linux/x64/Debug-WSL-gcc
       .
       Without this workaround, user needs to set the `<DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>` 
-      into 00_libtlpi.vcxproj.user to make it work.
+      into catch_SIGHUP.vcxproj.user to make it work.
     -->
     <DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>
 
@@ -189,15 +190,15 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <CppLanguageStandard>c++14</CppLanguageStandard>
-      <PreprocessorDefinitions>;;_XOPEN_SOURCE=600;_DEFAULT_SOURCE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>;;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../lib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
 
       <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       
-      <!-- To link a library(ncurses, pthread), pick either form below: -->
-      <AdditionalDependencies>;;-lncurses;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- To link a library(resolv, pthread), pick either form below: -->
+      <AdditionalDependencies>;;-lresolv;%(AdditionalDependencies)</AdditionalDependencies>
       <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
       
     </Link>
@@ -234,72 +235,17 @@
     Source file list:
    -->
   <ItemGroup>
-	<ClCompile Include="alt_functions.c" />
-	<ClCompile Include="become_daemon.c" />
-	<ClCompile Include="binary_sems.c" />
-	<ClCompile Include="cap_functions.c" />
-	<ClCompile Include="create_pid_file.c" />
-	<ClCompile Include="curr_time.c" />
-	<ClCompile Include="error_functions.c" />
-	<ClCompile Include="event_flags.c" />
-	<ClCompile Include="file_perms.c" />
-	<ClCompile Include="get_num.c" />
-	<ClCompile Include="inet_sockets.c" />
-	<ClCompile Include="itimerspec_from_str.c" />
-	<ClCompile Include="print_rlimit.c" />
-	<ClCompile Include="print_rusage.c" />
-	<ClCompile Include="print_wait_status.c" />
-	<ClCompile Include="pty_fork.c" />
-	<ClCompile Include="pty_master_open.c" />
-	<ClCompile Include="rdwrn.c" />
-	<ClCompile Include="read_line.c" />
-	<ClCompile Include="read_line_buf.c" />
-	<ClCompile Include="region_locking.c" />
-	<ClCompile Include="scm_functions.c" />
-	<ClCompile Include="signal.c" />
-	<ClCompile Include="signal_functions.c" />
-	<ClCompile Include="tty_functions.c" />
-	<ClCompile Include="ugid_functions.c" />
-	<ClCompile Include="unix_sockets.c" />
-	<ClCompile Include="userns_functions.c" />
-	<ClCompile Include="PrnTs.cpp" />
-
-	<ClInclude Include="alt_functions.h" />
-	<ClInclude Include="become_daemon.h" />
-	<ClInclude Include="binary_sems.h" />
-	<ClInclude Include="cap_functions.h" />
-	<ClInclude Include="create_pid_file.h" />
-	<ClInclude Include="curr_time.h" />
-	<ClInclude Include="error_functions.h" />
-	<ClInclude Include="event_flags.h" />
-	<ClInclude Include="file_perms.h" />
-	<ClInclude Include="get_num.h" />
-	<ClInclude Include="inet_sockets.h" />
-	<ClInclude Include="itimerspec_from_str.h" />
-	<ClInclude Include="print_rlimit.h" />
-	<ClInclude Include="print_rusage.h" />
-	<ClInclude Include="print_wait_status.h" />
-	<ClInclude Include="pty_fork.h" />
-	<ClInclude Include="pty_master_open.h" />
-	<ClInclude Include="rdwrn.h" />
-	<ClInclude Include="read_line.h" />
-	<ClInclude Include="read_line_buf.h" />
-	<ClInclude Include="region_locking.h" />
-	<ClInclude Include="scm_functions.h" />
-	<ClInclude Include="semun.h" />
-	<ClInclude Include="signal_functions.h" />
-	<ClInclude Include="tlpi_hdr.h" />
-	<ClInclude Include="tty_functions.h" />
-	<ClInclude Include="ugid_functions.h" />
-	<ClInclude Include="unix_sockets.h" />
-	<ClInclude Include="userns_functions.h" />
-	<ClInclude Include="PrnTs.h" />
-	<ClInclude Include="ename.c.inc" />
+    <ClCompile Include="catch_SIGHUP_ts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <!-- 
     <ClInclude Include="ps_headers.h" />
      -->
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\00_libtlpi.vcxproj">
+      <Project>{20231214-0000-0000-0000-211843000001}</Project>
+    </ProjectReference>
   </ItemGroup>
 
   <!-- MSBuild system stock Cpp.targets -->
@@ -308,14 +254,12 @@
   </ImportGroup>
 
   <!-- import VSPG start -->
-								  <!-- 
   <PropertyGroup>
-    <VSPG_BootsDir_NoTBS>..\_VSPG\boots</VSPG_BootsDir_NoTBS>
+    <VSPG_BootsDir_NoTBS>..\..\__VSPG\_VSPG\boots</VSPG_BootsDir_NoTBS>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(VSPG_BootsDir_NoTBS)\_VSPG.props" Condition="exists('$(VSPG_BootsDir_NoTBS)\_VSPG.props')"/>
   </ImportGroup>
-  									-->
   <!-- import VSPG end -->
 
   <!-- below code is just for test -->
