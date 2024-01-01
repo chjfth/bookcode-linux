@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03a.catch_SIGHUP_ts", "..\c
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04a.disc_SIGHUP_ts", "..\ch34-pgsjc\disc_SIGHUP_ts.vcxproj", "{20231215-0000-0000-0000-012832000A00}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "07a.orphaned_pgrp_SIGHUP_ts", "..\ch34-pgsjc\orphaned_pgrp_SIGHUP_ts.vcxproj", "{20231229-0000-0000-0000-06483600000A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug-remote-gcc|ARM = Debug-remote-gcc|ARM
@@ -399,6 +401,42 @@ Global
 		{20231215-0000-0000-0000-012832000A00}.Release|x86.ActiveCfg = Release|x86
 		{20231215-0000-0000-0000-012832000A00}.Release|x86.Build.0 = Release|x86
 		{20231215-0000-0000-0000-012832000A00}.Release|x86.Deploy.0 = Release|x86
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|ARM.ActiveCfg = Debug-remote-gcc|ARM
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|ARM.Build.0 = Debug-remote-gcc|ARM
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|ARM.Deploy.0 = Debug-remote-gcc|ARM
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|ARM64.ActiveCfg = Debug-remote-gcc|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|ARM64.Build.0 = Debug-remote-gcc|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|ARM64.Deploy.0 = Debug-remote-gcc|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|x64.ActiveCfg = Debug-remote-gcc|x64
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|x64.Build.0 = Debug-remote-gcc|x64
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|x64.Deploy.0 = Debug-remote-gcc|x64
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|x86.ActiveCfg = Debug-remote-gcc|x86
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|x86.Build.0 = Debug-remote-gcc|x86
+		{20231229-0000-0000-0000-06483600000A}.Debug-remote-gcc|x86.Deploy.0 = Debug-remote-gcc|x86
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|ARM.ActiveCfg = Debug-WSL-gcc|ARM
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|ARM.Build.0 = Debug-WSL-gcc|ARM
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|ARM.Deploy.0 = Debug-WSL-gcc|ARM
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|ARM64.ActiveCfg = Debug-WSL-gcc|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|ARM64.Build.0 = Debug-WSL-gcc|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|ARM64.Deploy.0 = Debug-WSL-gcc|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|x64.ActiveCfg = Debug-WSL-gcc|x64
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|x64.Build.0 = Debug-WSL-gcc|x64
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|x64.Deploy.0 = Debug-WSL-gcc|x64
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|x86.ActiveCfg = Debug-WSL-gcc|x86
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|x86.Build.0 = Debug-WSL-gcc|x86
+		{20231229-0000-0000-0000-06483600000A}.Debug-WSL-gcc|x86.Deploy.0 = Debug-WSL-gcc|x86
+		{20231229-0000-0000-0000-06483600000A}.Release|ARM.ActiveCfg = Release|ARM
+		{20231229-0000-0000-0000-06483600000A}.Release|ARM.Build.0 = Release|ARM
+		{20231229-0000-0000-0000-06483600000A}.Release|ARM.Deploy.0 = Release|ARM
+		{20231229-0000-0000-0000-06483600000A}.Release|ARM64.ActiveCfg = Release|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Release|ARM64.Build.0 = Release|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Release|ARM64.Deploy.0 = Release|ARM64
+		{20231229-0000-0000-0000-06483600000A}.Release|x64.ActiveCfg = Release|x64
+		{20231229-0000-0000-0000-06483600000A}.Release|x64.Build.0 = Release|x64
+		{20231229-0000-0000-0000-06483600000A}.Release|x64.Deploy.0 = Release|x64
+		{20231229-0000-0000-0000-06483600000A}.Release|x86.ActiveCfg = Release|x86
+		{20231229-0000-0000-0000-06483600000A}.Release|x86.Build.0 = Release|x86
+		{20231229-0000-0000-0000-06483600000A}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
