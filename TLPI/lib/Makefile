@@ -11,7 +11,9 @@ all : ${TLPI_LIB}
 
 OBJECTS=$(patsubst %.c,%.o,$(wildcard *.c))
 
-${TLPI_LIB} : ${OBJECTS}
+OBJECTS_CXX = $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+
+${TLPI_LIB} : ${OBJECTS} ${OBJECTS_CXX}
 	${RM} ${TLPI_LIB}
 	${AR} rs ${TLPI_LIB} *.o
 
