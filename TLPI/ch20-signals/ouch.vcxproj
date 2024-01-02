@@ -114,6 +114,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   
+  <!-- 
+    Import TLPI book suggested EXE shared compiler/linker options, e.g.,
+      -D _XOPEN_SOURCE=600 -D _DEFAULT_SOURCE 
+  -->
+  <ImportGroup Label="PropertySheets">
+    <Import Project="..\_vslinux_sln\exe-share.props" />
+  </ImportGroup>
+  
   <!-- Always use target-platform-prefixed gcc/g++ command lines, so that WSL can cope with multiple target platforms. -->
   
   <PropertyGroup Condition="'$(Platform)'=='x86'">
@@ -189,18 +197,10 @@
   -->
   <ItemDefinitionGroup>
     <ClCompile>
-      <CppLanguageStandard>c++14</CppLanguageStandard>
       <PreprocessorDefinitions>;;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../lib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-
       <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      
-      <!-- To link a library(resolv, pthread), pick either form below: -->
-      <AdditionalDependencies>;;-lresolv;%(AdditionalDependencies)</AdditionalDependencies>
-      <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
-      
     </Link>
     <!-- Better build.log file naming -->
     <BuildLog>

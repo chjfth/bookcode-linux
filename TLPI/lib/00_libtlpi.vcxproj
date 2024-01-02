@@ -197,7 +197,7 @@
       <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       
       <!-- To link a library(ncurses, pthread), pick either form below: -->
-      <AdditionalDependencies>;;-lncurses;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>;;%(AdditionalDependencies)</AdditionalDependencies>
       <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
       
     </Link>
