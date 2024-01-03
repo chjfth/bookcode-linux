@@ -30,8 +30,8 @@ ouch : ouch.c
 intquit : intquit.c
 	${CC} -D_BSD_SOURCE -o $@ intquit.c ${CFLAGS} ${IMPL_LDLIBS}
 
-sig_receiver : sig_receiver.c
-	${CC} -D_BSD_SOURCE -o $@ sig_receiver.c ${CFLAGS} ${IMPL_LDLIBS}
+sig_receiver : sig_receiver.cpp
+	${CXX} -D_BSD_SOURCE -o $@ $< ${CXXFLAGS} ${IMPL_LDLIBS}
 
 nonreentrant : nonreentrant.o
 	${CC} -o $@ nonreentrant.o ${CFLAGS} ${IMPL_LDLIBS} ${LINUX_LIBCRYPT}
