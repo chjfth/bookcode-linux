@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "00_libtlpi", "..\lib\00_lib
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02.intquit", "..\ch20-signals\intquit.vcxproj", "{20240103-0000-0000-0000-004638000001}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "0x.t_kill", "..\ch20-signals\t_kill.vcxproj", "{20240103-0000-0000-0000-210246000001}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03.t_kill", "..\ch20-signals\t_kill.vcxproj", "{20240103-0000-0000-0000-210246000001}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -33,7 +33,8 @@ main(int argc, char *argv[])
 		if (s == -1)
 			errExit("kill");
 
-	} else {                    /* Null signal: process existence check */
+	} else {
+		/* Null signal: process existence check */
 		if (s == 0) {
 			printf("Process exists and we can send it a signal\n");
 		} else {
