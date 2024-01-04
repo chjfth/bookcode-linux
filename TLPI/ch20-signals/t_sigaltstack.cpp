@@ -56,7 +56,7 @@ overflowStack(int callNum)
 int
 main(int argc, char *argv[])
 {
-	stack_t sigstack = {};
+	stack_t sigstack = {}, old_sigstack = {};
 	struct sigaction sa = {};
 	int j = 0xCDCDCDCD;
 
@@ -70,7 +70,7 @@ main(int argc, char *argv[])
 
 	sigstack.ss_size = SIGSTKSZ;
 	sigstack.ss_flags = 0;
-	if (sigaltstack(&sigstack, NULL) == -1)
+	if (sigaltstack(&sigstack, &old_sigstack) == -1)
 		errExit("sigaltstack");
 
 	printf("Alternate stack is at         %10p-%p\n",
