@@ -81,9 +81,13 @@ main(int argc, char *argv[])
 		continue;
 
 	for (n = 1; n < NSIG; n++)          /* Display number of signals received */
+	{
 		if (sigCnt[n] != 0)
+		{
 			printf("%s: signal %d caught %d time%s\n", argv[0], n,
-					sigCnt[n], (sigCnt[n] == 1) ? "" : "s");
+               sigCnt[n], (sigCnt[n] == 1) ? "" : "s");
+		}
+	}
 
 	exit(EXIT_SUCCESS);
 }
