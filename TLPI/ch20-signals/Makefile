@@ -34,7 +34,7 @@ sig_receiver : sig_receiver.cpp
 	${CXX} -D_BSD_SOURCE -o $@ $< ${CXXFLAGS} ${IMPL_LDLIBS}
 
 nonreentrant : nonreentrant.o
-	${CC} -o $@ nonreentrant.o ${CFLAGS} ${IMPL_LDLIBS} ${LINUX_LIBCRYPT}
+	${CXX} -o $@ nonreentrant.o ${CXXFLAGS} ${IMPL_LDLIBS} ${LINUX_LIBCRYPT}
 
 sigmask_siglongjmp.o : sigmask_longjmp.c
 	${CC} -o $@ -DUSE_SIGSETJMP -c sigmask_longjmp.c ${CFLAGS}
