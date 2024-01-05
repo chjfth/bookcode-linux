@@ -17,6 +17,14 @@
 #ifndef PRINT_RLIMIT_H      /* Prevent accidental double inclusion */
 #define PRINT_RLIMIT_H
 
-int printRlimit(const char *msg, int resource);
+#ifdef __cplusplus
+extern"C" {
+#endif
+
+int printRlimit(const char* msg, int resource);
+
+#ifdef __cplusplus
+} // extern"C" {
+#endif
 
 #endif
