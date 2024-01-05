@@ -62,7 +62,11 @@ main(int argc, char *argv[])
 		errExit("sigaction");
 
 	/* Child informs parent of impending termination using a signal;
-	   block that signal until the parent is ready to catch it. */
+	   block that signal until the parent is ready to catch it.
+
+		Chj: Block SIGUSR1, so to ensure that even if we enable
+		sleep(4) below, the SIGUSR1 can still wakeup sigsuspend() .
+	*/
 
 	sigemptyset(&mask);
 	sigaddset(&mask, SIG);
@@ -76,6 +80,7 @@ main(int argc, char *argv[])
 	case 0:             /* Child */
 		for (start = clock(); clock() - start < NSECS * CLOCKS_PER_SEC;)
 			continue;           /* Burn NSECS seconds of CPU time */
+
 		printf("Child terminating\n");
 
 		/* Tell parent we're nearly done */
@@ -85,6 +90,9 @@ main(int argc, char *argv[])
 		_exit(EXIT_SUCCESS);
 
 	default:    /* Parent */
+
+		// sleep(4); // chj comment
+		
 		sigemptyset(&mask);
 		sigsuspend(&mask);      /* Wait for signal from child */
 
