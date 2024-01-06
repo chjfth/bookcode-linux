@@ -63,7 +63,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20240103-0000-0000-0000-004638000001}</ProjectGuid>
-    <ProjectName>02.intquit</ProjectName>
+    <ProjectName>20-2.intquit</ProjectName>
     <TargetName>intquit</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

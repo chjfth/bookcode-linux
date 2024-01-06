@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20240103-0000-0000-0000-000336000001}</ProjectGuid>
-    <ProjectName>01.ouch</ProjectName>
+    <ProjectName>20-1.ouch</ProjectName>
     <TargetName>ouch</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

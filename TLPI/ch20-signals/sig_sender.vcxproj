@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20240103-0000-0000-0000-221943000001}</ProjectGuid>
-    <ProjectName>06.sig_sender</ProjectName>
+    <ProjectName>20-6.sig_sender</ProjectName>
     <TargetName>sig_sender</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

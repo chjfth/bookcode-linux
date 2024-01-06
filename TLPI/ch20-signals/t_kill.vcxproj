@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20240103-0000-0000-0000-210246000001}</ProjectGuid>
-    <ProjectName>03.t_kill</ProjectName>
+    <ProjectName>20-3.t_kill</ProjectName>
     <TargetName>t_kill</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>
