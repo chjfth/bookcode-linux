@@ -39,6 +39,7 @@
 #include <string.h>
 #include <signal.h>
 #include "tlpi_hdr.h"
+#include "PrnTs.h"
 
 static volatile int handlerSleepTime = 0;
 static volatile int sigCnt = 0;         /* Number of signals received */
@@ -58,18 +59,21 @@ siginfoHandler(int sig, siginfo_t *si, void *ucontext)
 	}
 
 	sigCnt++;
-	printf("caught signal %d\n", sig);
-
-	printf("    si_signo=%d, si_code=%d (%s), si_value=%d\n", 
-			si->si_signo, 
-			si->si_code,
+	PrnTs("caught signal %d\n"
+	      "    si_signo=%d, si_code=%d (%s), si_value=%d\n"
+	      "    si_pid=%ld, si_uid=%ld"
+		,
+		
+		sig
+		,
+		si->si_signo, 
+		si->si_code,
 			(si->si_code == SI_USER) ? "SI_USER" :
 				(si->si_code == SI_QUEUE) ? "SI_QUEUE" : "other",
 			si->si_value.sival_int
+		,
+		(long)si->si_pid, (long)si->si_uid
 	);
-
-	printf("    si_pid=%ld, si_uid=%ld\n",
-			(long) si->si_pid, (long) si->si_uid);
 
 	sleep(handlerSleepTime);
 }
@@ -84,7 +88,7 @@ main(int argc, char *argv[])
 	if (argc > 1 && strcmp(argv[1], "--help") == 0)
 		usageErr("%s [block-time [handler-sleep-time]]\n", argv[0]);
 
-	printf("%s: PID is %ld\n", argv[0], (long) getpid());
+	PrnTs("%s: PID is %ld", argv[0], (long) getpid());
 
 	handlerSleepTime = (argc > 2) ?
 				getInt(argv[2], GN_NONNEG, "handler-sleep-time") : 1;
@@ -115,11 +119,11 @@ main(int argc, char *argv[])
 		if (sigprocmask(SIG_SETMASK, &blockMask, &prevMask) == -1)
 			errExit("sigprocmask");
 
-		printf("%s: signals blocked - sleeping %s seconds\n", argv[0], argv[1]);
+		PrnTs("%s: signals blocked - sleeping %s seconds", argv[0], argv[1]);
 
 		sleep(getInt(argv[1], GN_GT_0, "block-time"));
 
-		printf("%s: sleep complete\n", argv[0]);
+		PrnTs("%s: sleep complete", argv[0]);
 
 		if (sigprocmask(SIG_SETMASK, &prevMask, NULL) == -1)
 			errExit("sigprocmask");
@@ -128,6 +132,6 @@ main(int argc, char *argv[])
 	while (!allDone)                    /* Wait for incoming signals */
 		pause();
 
-	printf("Caught %d signals total.\n", sigCnt);
+	PrnTs("Caught %d signals total.", sigCnt);
 	exit(EXIT_SUCCESS);
 }
