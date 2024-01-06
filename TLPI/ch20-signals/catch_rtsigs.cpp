@@ -51,13 +51,6 @@ siginfoHandler(int sig, siginfo_t *si, void *ucontext)
 	/* UNSAFE: This handler uses non-async-signal-safe functions
 	   (printf()); see Section 21.1.2) */
 
-	/* SIGINT or SIGTERM can be used to terminate program */
-
-	if (sig == SIGINT || sig == SIGTERM) {
-		allDone = 1;
-		return;
-	}
-
 	sigCnt++;
 	PrnTs("caught signal %d\n"
 	      "    si_signo=%d, si_code=%d (%s), si_value=%d\n"
@@ -69,11 +62,21 @@ siginfoHandler(int sig, siginfo_t *si, void *ucontext)
 		si->si_signo, 
 		si->si_code,
 			(si->si_code == SI_USER) ? "SI_USER" :
-				(si->si_code == SI_QUEUE) ? "SI_QUEUE" : "other",
+				(si->si_code == SI_QUEUE) ? "SI_QUEUE" : 
+				(si->si_code == SI_KERNEL) ? "SI_KERNEL" : "other",
 			si->si_value.sival_int
 		,
 		(long)si->si_pid, (long)si->si_uid
 	);
+
+	/* SIGINT or SIGTERM can be used to terminate program */
+	// Chj: Check SIGINT after PrnTs(), so that we can see,
+	// If user Ctrl+C to generate SIGINT, .si_code=0x80 (SI_KERNEL).
+
+	if (sig == SIGINT || sig == SIGTERM) {
+		allDone = 1;
+		return;
+	}
 
 	sleep(handlerSleepTime);
 }
