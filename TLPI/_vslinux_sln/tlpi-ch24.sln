@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "24-2.fork_file_sharing", ".
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "24-4.t_vfork", "..\ch24-procexec\t_vfork.vcxproj", "{20240108-0000-0000-0000-002236000001}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "24-5.fork_whos_on_first", "..\ch24-procexec\fork_whos_on_first.vcxproj", "{20240108-0000-0000-0000-010532000001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug-remote-gcc|ARM = Debug-remote-gcc|ARM
@@ -171,6 +173,42 @@ Global
 		{20240108-0000-0000-0000-002236000001}.Release|x86.ActiveCfg = Release|x86
 		{20240108-0000-0000-0000-002236000001}.Release|x86.Build.0 = Release|x86
 		{20240108-0000-0000-0000-002236000001}.Release|x86.Deploy.0 = Release|x86
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|ARM.ActiveCfg = Debug-remote-gcc|ARM
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|ARM.Build.0 = Debug-remote-gcc|ARM
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|ARM.Deploy.0 = Debug-remote-gcc|ARM
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|ARM64.ActiveCfg = Debug-remote-gcc|ARM64
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|ARM64.Build.0 = Debug-remote-gcc|ARM64
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|ARM64.Deploy.0 = Debug-remote-gcc|ARM64
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|x64.ActiveCfg = Debug-remote-gcc|x64
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|x64.Build.0 = Debug-remote-gcc|x64
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|x64.Deploy.0 = Debug-remote-gcc|x64
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|x86.ActiveCfg = Debug-remote-gcc|x86
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|x86.Build.0 = Debug-remote-gcc|x86
+		{20240108-0000-0000-0000-010532000001}.Debug-remote-gcc|x86.Deploy.0 = Debug-remote-gcc|x86
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|ARM.ActiveCfg = Debug-WSL-gcc|ARM
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|ARM.Build.0 = Debug-WSL-gcc|ARM
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|ARM.Deploy.0 = Debug-WSL-gcc|ARM
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|ARM64.ActiveCfg = Debug-WSL-gcc|ARM64
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|ARM64.Build.0 = Debug-WSL-gcc|ARM64
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|ARM64.Deploy.0 = Debug-WSL-gcc|ARM64
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|x64.ActiveCfg = Debug-WSL-gcc|x64
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|x64.Build.0 = Debug-WSL-gcc|x64
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|x64.Deploy.0 = Debug-WSL-gcc|x64
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|x86.ActiveCfg = Debug-WSL-gcc|x86
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|x86.Build.0 = Debug-WSL-gcc|x86
+		{20240108-0000-0000-0000-010532000001}.Debug-WSL-gcc|x86.Deploy.0 = Debug-WSL-gcc|x86
+		{20240108-0000-0000-0000-010532000001}.Release|ARM.ActiveCfg = Release|ARM
+		{20240108-0000-0000-0000-010532000001}.Release|ARM.Build.0 = Release|ARM
+		{20240108-0000-0000-0000-010532000001}.Release|ARM.Deploy.0 = Release|ARM
+		{20240108-0000-0000-0000-010532000001}.Release|ARM64.ActiveCfg = Release|ARM64
+		{20240108-0000-0000-0000-010532000001}.Release|ARM64.Build.0 = Release|ARM64
+		{20240108-0000-0000-0000-010532000001}.Release|ARM64.Deploy.0 = Release|ARM64
+		{20240108-0000-0000-0000-010532000001}.Release|x64.ActiveCfg = Release|x64
+		{20240108-0000-0000-0000-010532000001}.Release|x64.Build.0 = Release|x64
+		{20240108-0000-0000-0000-010532000001}.Release|x64.Deploy.0 = Release|x64
+		{20240108-0000-0000-0000-010532000001}.Release|x86.ActiveCfg = Release|x86
+		{20240108-0000-0000-0000-010532000001}.Release|x86.Build.0 = Release|x86
+		{20240108-0000-0000-0000-010532000001}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
