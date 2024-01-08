@@ -19,25 +19,26 @@
 int
 main(int argc, char *argv[])
 {
-    char *argVec[10];           /* Larger than required */
-    char *envVec[] = { "GREET=salut", "BYE=adieu", NULL };
+	char *argVec[10];           /* Larger than required */
+	char *envVec[] = { "GREET=salut", "BYE=adieu", NULL };
 
-    if (argc != 2 || strcmp(argv[1], "--help") == 0)
-        usageErr("%s pathname\n", argv[0]);
+	if (argc != 2 || strcmp(argv[1], "--help") == 0)
+		usageErr("%s pathname\n", argv[0]);
 
-    /* Create an argument list for the new program */
+	/* Create an argument list for the new program */
 
-    argVec[0] = strrchr(argv[1], '/');      /* Get basename from argv[1] */
-    if (argVec[0] != NULL)
-        argVec[0]++;
-    else
-        argVec[0] = argv[1];
-    argVec[1] = "hello world";
-    argVec[2] = "goodbye";
-    argVec[3] = NULL;           /* List must be NULL-terminated */
+	argVec[0] = strrchr(argv[1], '/');      /* Get basename from argv[1] */
+	if (argVec[0] != NULL)
+		argVec[0]++;
+	else
+		argVec[0] = argv[1];
 
-    /* Execute the program specified in argv[1] */
+	argVec[1] = "hello world";
+	argVec[2] = "goodbye";
+	argVec[3] = NULL;           /* List must be NULL-terminated */
 
-    execve(argv[1], argVec, envVec);
-    errExit("execve");          /* If we get here, something went wrong */
+	/* Execute the program specified in argv[1] */
+
+	execve(argv[1], argVec, envVec);
+	errExit("execve");          /* If we get here, something went wrong */
 }
