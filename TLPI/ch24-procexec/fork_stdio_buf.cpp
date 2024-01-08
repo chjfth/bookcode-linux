@@ -19,13 +19,27 @@
 int
 main(int argc, char *argv[])
 {
-    printf("Hello world\n");
-    write(STDOUT_FILENO, "Ciao\n", 5);
+	printf("Hello world\n");
+	write(STDOUT_FILENO, "Ciao\n", 5);
 
-    if (fork() == -1)
-        errExit("fork");
+	if (fork() == -1)
+		errExit("fork");
 
-    /* Both child and parent continue execution here */
+	/* Both child and parent continue execution here */
 
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
+
+/*
+ *
+$ ./fork_stdio_buf
+Hello world
+Ciao
+
+$ ./fork_stdio_buf > a.txt
+$ cat a.txt
+Ciao
+Hello world
+Hello world
+
+*/
