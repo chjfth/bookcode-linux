@@ -10,7 +10,7 @@
 
 /* Listing 25-2 */
 
-/* fork_stdio_buf.c
+/* fork_stdio_nobuf.cpp
 
    Experiment with fork() and stdio buffering.
 */
@@ -19,6 +19,11 @@
 int
 main(int argc, char *argv[])
 {
+	// As suggested by p538, disable stdout's FILE* layer buffer,
+	// and we will see "Hello world" in a.txt only once.
+	//
+	setbuf(stdout, nullptr);
+	
 	printf("Hello world\n");
 	write(STDOUT_FILENO, "Ciao\n", 5);
 
@@ -32,14 +37,13 @@ main(int argc, char *argv[])
 
 /*
 
-$ ./fork_stdio_buf
+$ ./fork_stdio_nobuf
 Hello world
 Ciao
 
-$ ./fork_stdio_buf > a.txt
-$ cat a.txt
+$ ./fork_stdio_nobuf > b.txt
+$ cat b.txt
+Hello world
 Ciao
-Hello world
-Hello world
 
 */
