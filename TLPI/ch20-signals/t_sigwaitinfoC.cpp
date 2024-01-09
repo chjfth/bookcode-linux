@@ -8,9 +8,9 @@
 * the file COPYING.gpl-v3 for details.                                    *
 \*************************************************************************/
 
-/* Listing 22-6 extended*/
+/* Listing 22-6 extended */
 
-/* t_sigwaitinfoX.cpp
+/* t_sigwaitinfoC.cpp
 
    Demonstrate the use of sigwaitinfo() to synchronously wait for a signal.
 
