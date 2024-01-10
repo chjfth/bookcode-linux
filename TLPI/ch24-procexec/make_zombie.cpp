@@ -55,6 +55,13 @@ main(int argc, char *argv[])
 		printf("After sending SIGKILL to zombie (PID=%ld):\n", (long) childPid);
 		system(cmd);            /* View zombie child again */
 
+		// Chj: Make a pause here.
+		if(argc>1 && argv[1][0]=='0')
+		{
+			printf("Press Enter to quit, or inspect the zombie child from another terminal.\n");
+			getchar();
+		}
+		
 		exit(EXIT_SUCCESS);
 	}
 }
