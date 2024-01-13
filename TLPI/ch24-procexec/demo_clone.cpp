@@ -107,7 +107,7 @@ grimReaper(int sig)
 static void
 usageError(char *progName)
 {
-	fprintf(stderr, "Usage: %s [arg] [child-sleep-seconds]\n", progName);
+	fprintf(stderr, "Usage: %s <arg> [child-sleep-seconds]\n", progName);
 #define fpe(str) fprintf(stderr, "        " str)
 	fpe("'arg' can contain the following letters:\n");
 	fpe("    d - share file descriptors (CLONE_FILES)\n");
@@ -115,6 +115,8 @@ usageError(char *progName)
 	fpe("    s - share signal dispositions (CLONE_SIGHAND)\n");
 	fpe("    v - share virtual memory (CLONE_VM)\n");
 	fpe("    T - a POSIX thread (CLONE_TTHREAD ... total 9 flags)\n");
+	fpe(" or:\n");
+	fpe("    0 - no extra flags to clone()\n");
 	exit(EXIT_FAILURE);
 }
 
@@ -135,8 +137,6 @@ main(int argc, char *argv[])
 
 	setbuf(stdout, NULL);
 	
-	PrnTs("Parent: PID=%ld PPID=%ld", (long) getpid(), (long) getppid());
-
 	/* Set up an argument structure to be passed to cloned child, and
 	   set some process attributes that will be modified by child */
 
@@ -159,20 +159,22 @@ main(int argc, char *argv[])
 	/* Initialize clone flags using command-line argument (if supplied) */
 
 	flags = 0;
-	if (argc > 1) {
-		for (p = argv[1]; *p != '\0'; p++) {
-			if      (*p == 'd') flags |= CLONE_FILES;
-			else if (*p == 'f') flags |= CLONE_FS;
-			else if (*p == 's') flags |= CLONE_SIGHAND;
-			else if (*p == 'v') flags |= CLONE_VM;
-			else if (*p == 'T')
-			{
-				// Chj: TLPI p609 refers to this.
-				flags = CLONE_THREAD | CLONE_VM | CLONE_FILES | CLONE_FS | CLONE_SIGHAND;
+	if (argc == 1) 
+		usageError(argv[0]);
+
+	for (p = argv[1]; *p != '\0'; p++) {
+		if      (*p == '0') flags = 0;
+		else if (*p == 'd') flags |= CLONE_FILES;
+		else if (*p == 'f') flags |= CLONE_FS;
+		else if (*p == 's') flags |= CLONE_SIGHAND;
+		else if (*p == 'v') flags |= CLONE_VM;
+		else if (*p == 'T')
+		{
+			// Chj: TLPI p609 refers to this.
+			flags = CLONE_THREAD | CLONE_VM | CLONE_FILES | CLONE_FS | CLONE_SIGHAND;
 //					| CLONE_SETTLS | CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_SYSVSEM;
-			}
-			else usageError(argv[0]);
 		}
+		else usageError(argv[0]);
 	}
 
 	if(argc > 2)
@@ -181,7 +183,6 @@ main(int argc, char *argv[])
 		// we can inspect in in /proc/TID/status , or attach a debugger.
 		cp.sleep_seconds = getInt(argv[2], GN_NONNEG, "sleep-seconds");
 	}
-
 
 	/* Allocate stack for child */
 
@@ -201,6 +202,8 @@ main(int argc, char *argv[])
 		if (sigaction(CHILD_SIG, &sa, NULL) == -1)
 			errExit("sigaction");
 	}
+
+	PrnTs("Parent: PID=%ld PPID=%ld", (long)getpid(), (long)getppid());
 
 	/* Create child; child commences execution in childFunc() */
 
