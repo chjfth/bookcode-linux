@@ -22,6 +22,8 @@
    combinations are required or invalid.
 
    This program is Linux-specific.
+
+   [2024-01-13] Chj adds 'T' param to do CLONE_THREAD.
 */
 #define _GNU_SOURCE
 #include <string.h>
@@ -33,17 +35,24 @@
 #include <sys/mman.h>
 #include "print_wait_status.h"
 #include "tlpi_hdr.h"
+#include "PrnTs.h"
 
 #ifndef CHILD_SIG
 #define CHILD_SIG SIGUSR1       /* Signal to be generated on termination
 								   of cloned child */
 #endif
 
+#define CHILD_TWEAKED_GVAR (-2)
+
 typedef struct {        /* For passing info to child startup function */
 	int    fd;
 	mode_t umask;
 	int    exitStatus;
 	int    signal;
+
+	// Chj:
+	int sleep_seconds; // Child sleeps these seconds.
+	int pipefd[2];     // Child uses the pipe to inform parent its(child's) exit.
 } ChildParams;
 
 static int              /* Startup function for cloned child */
@@ -51,18 +60,32 @@ childFunc(void *arg)
 {
 	ChildParams *cp;
 
-	printf("Child:  PID=%ld PPID=%ld\n", (long) getpid(), (long) getppid());
+	PrnTs("Child:  PID=%ld PPID=%ld", (long) getpid(), (long) getppid());
 
 	cp = (ChildParams *) arg;   /* Cast arg to true form */
 
 	/* The following changes may affect parent */
 
 	umask(cp->umask);
+	
 	if (close(cp->fd) == -1)
 		errExit("child:close");
+
 	if (signal(cp->signal, SIG_DFL) == SIG_ERR)
 		errExit("child:signal");
 
+	if(cp->sleep_seconds > 0)
+	{
+		PrnTs("Child sleeps %d seconds...", cp->sleep_seconds);
+		sleep(cp->sleep_seconds);
+		PrnTs("Child sleeps done.");
+	}
+
+	cp->sleep_seconds = CHILD_TWEAKED_GVAR;
+
+	char c = '0';
+	write(cp->pipefd[STDOUT_FILENO], &c, 1);
+	
 	return cp->exitStatus;      /* Child terminates now */
 }
 
@@ -76,7 +99,7 @@ grimReaper(int sig)
 
 	savedErrno = errno;         /* In case we change 'errno' here */
 
-	printf("Caught signal %d (%s)\n", sig, strsignal(sig));
+	PrnTs("Caught signal %d (%s)", sig, strsignal(sig));
 
 	errno = savedErrno;
 }
@@ -84,13 +107,14 @@ grimReaper(int sig)
 static void
 usageError(char *progName)
 {
-	fprintf(stderr, "Usage: %s [arg]\n", progName);
+	fprintf(stderr, "Usage: %s [arg] [child-sleep-seconds]\n", progName);
 #define fpe(str) fprintf(stderr, "        " str)
 	fpe("'arg' can contain the following letters:\n");
 	fpe("    d - share file descriptors (CLONE_FILES)\n");
 	fpe("    f - share file-system information (CLONE_FS)\n");
 	fpe("    s - share signal dispositions (CLONE_SIGHAND)\n");
 	fpe("    v - share virtual memory (CLONE_VM)\n");
+	fpe("    T - a POSIX thread (CLONE_TTHREAD ... total 9 flags)\n");
 	exit(EXIT_FAILURE);
 }
 
@@ -101,7 +125,7 @@ main(int argc, char *argv[])
 	char *stack;                        /* Start of stack buffer area */
 	char *stackTop;                     /* End of stack buffer area */
 	int flags;                          /* Flags for cloning child */
-	ChildParams cp;                     /* Passed to child function */
+	ChildParams cp = {};                /* Passed to child function */
 	const mode_t START_UMASK = S_IWOTH; /* Initial umask setting */
 	struct sigaction sa;
 	char *p;
@@ -109,7 +133,9 @@ main(int argc, char *argv[])
 	ssize_t s;
 	pid_t pid;
 
-	printf("Parent: PID=%ld PPID=%ld\n", (long) getpid(), (long) getppid());
+	setbuf(stdout, NULL);
+	
+	PrnTs("Parent: PID=%ld PPID=%ld", (long) getpid(), (long) getppid());
 
 	/* Set up an argument structure to be passed to cloned child, and
 	   set some process attributes that will be modified by child */
@@ -124,8 +150,12 @@ main(int argc, char *argv[])
 		errExit("open");
 
 	cp.signal = SIGTERM;                /* Child will change disposition */
-	if (signal(cp.signal, SIG_IGN) == SIG_ERR)  errExit("signal");
+	if (signal(cp.signal, SIG_IGN) == SIG_ERR)  
+		errExit("signal");
 
+	if (pipe(cp.pipefd) == -1)
+		errExit("pipe()");
+	
 	/* Initialize clone flags using command-line argument (if supplied) */
 
 	flags = 0;
@@ -135,9 +165,23 @@ main(int argc, char *argv[])
 			else if (*p == 'f') flags |= CLONE_FS;
 			else if (*p == 's') flags |= CLONE_SIGHAND;
 			else if (*p == 'v') flags |= CLONE_VM;
+			else if (*p == 'T')
+			{
+				// Chj: TLPI p609 refers to this.
+				flags = CLONE_THREAD | CLONE_VM | CLONE_FILES | CLONE_FS | CLONE_SIGHAND;
+//					| CLONE_SETTLS | CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_SYSVSEM;
+			}
 			else usageError(argv[0]);
 		}
 	}
+
+	if(argc > 2)
+	{
+		// Chj: Let child sleep for some seconds, so that
+		// we can inspect in in /proc/TID/status , or attach a debugger.
+		cp.sleep_seconds = getInt(argv[2], GN_NONNEG, "sleep-seconds");
+	}
+
 
 	/* Allocate stack for child */
 
@@ -160,30 +204,43 @@ main(int argc, char *argv[])
 
 	/* Create child; child commences execution in childFunc() */
 
-	if (clone(childFunc, stackTop, flags | CHILD_SIG, &cp) == -1)
+	int tid = clone(childFunc, stackTop, flags | CHILD_SIG, &cp);
+	if (tid == -1)
 		errExit("clone");
+
+	PrnTs("Parent: clone() returns child-tid: %d", tid);
 
 	/* Parent falls through to here. Wait for child; __WCLONE option is
 	   required for child notifying with signal other than SIGCHLD. */
 
 	pid = waitpid(-1, &status, (CHILD_SIG != SIGCHLD) ? __WCLONE : 0);
 	if (pid == -1)
-		errExit("waitpid");
+	{
+		// This occurs when CLONE_THREAD. We cannot waitpid() on a thread.
+		// so wait for the pipe instead.
+		int c = 0;
+		int err = read(cp.pipefd[STDIN_FILENO], &c, 1);
+		if(err==-1)
+			errExit("read() pipe");
 
-	printf("    Child PID=%ld\n", (long) pid);
-	printWaitStatus("    Status: ", status);
-
+		PrnTs("Parent: Known child's done by pipe.");
+	}
+	else
+	{
+		PrnTs("Parent: waitpid() returns pid=%ld", (long) pid);
+		printWaitStatus("    Status: ", status);
+	}
 	/* Check whether changes made by cloned child have affected parent */
 
 	printf("Parent - checking process attributes:\n");
 	if (umask(0) != START_UMASK)
-		printf("    umask has changed\n");
+		printf("    umask has CHANGED\n");
 	else
 		printf("    umask has not changed\n");
 
 	s = write(cp.fd, "Hello world\n", 12);
 	if (s == -1 && errno == EBADF)
-		printf("    file descriptor %d has been closed\n", cp.fd);
+		printf("    write() on file descriptor %d FAILED, bcz FD closed by child\n", cp.fd);
 	else if (s == -1)
 		printf("    write() on file descriptor %d failed (%s)\n",
 				cp.fd, strerror(errno));
@@ -193,9 +250,14 @@ main(int argc, char *argv[])
 	if (sigaction(cp.signal, NULL, &sa) == -1)
 		errExit("sigaction");
 	if (sa.sa_handler != SIG_IGN)
-		printf("    signal disposition has changed\n");
+		printf("    signal disposition has CHANGED\n");
 	else
 		printf("    signal disposition has not changed\n");
+
+	if (cp.sleep_seconds == CHILD_TWEAKED_GVAR)
+		printf("    global var has CHANGED\n");
+	else
+		printf("    global var has not changed\n");
 
 	exit(EXIT_SUCCESS);
 }
