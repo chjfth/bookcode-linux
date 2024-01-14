@@ -34,7 +34,7 @@ main(int argc, char *argv[])
     void *res;
     int s;
 
-    s = pthread_create(&t1, NULL, threadFunc, "Hello world\n");
+    s = pthread_create(&t1, NULL, threadFunc, (void*)"Hello world\n");
     if (s != 0)
         errExitEN(s, "pthread_create");
 
