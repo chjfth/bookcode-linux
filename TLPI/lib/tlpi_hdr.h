@@ -26,6 +26,8 @@
 #include <string.h>     /* Commonly used string-handling functions */
 #include <stdbool.h>    /* 'bool' type plus 'true' and 'false' constants */
 
+#include <assert.h>
+
 #ifdef __cplusplus
 extern"C" {
 #endif
