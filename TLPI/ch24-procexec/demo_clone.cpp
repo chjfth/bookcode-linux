@@ -33,6 +33,9 @@
 #include <fcntl.h>
 #include <sched.h>
 #include <sys/mman.h>
+#include <sys/syscall.h>
+#include <linux/futex.h>
+
 #include "print_wait_status.h"
 #include "tlpi_hdr.h"
 #include "PrnTs.h"
@@ -52,7 +55,6 @@ typedef struct {        /* For passing info to child startup function */
 
 	// Chj:
 	int sleep_seconds; // Child sleeps these seconds.
-	int pipefd[2];     // Child uses the pipe to inform parent its(child's) exit.
 } ChildParams;
 
 static int              /* Startup function for cloned child */
@@ -83,9 +85,6 @@ childFunc(void *arg)
 
 	cp->sleep_seconds = CHILD_TWEAKED_GVAR;
 
-	char c = '0';
-	write(cp->pipefd[STDOUT_FILENO], &c, 1);
-	
 	return cp->exitStatus;      /* Child terminates now */
 }
 
@@ -153,9 +152,6 @@ main(int argc, char *argv[])
 	if (signal(cp.signal, SIG_IGN) == SIG_ERR)  
 		errExit("signal");
 
-	if (pipe(cp.pipefd) == -1)
-		errExit("pipe()");
-	
 	/* Initialize clone flags using command-line argument (if supplied) */
 
 	flags = 0;
@@ -207,7 +203,11 @@ main(int argc, char *argv[])
 
 	/* Create child; child commences execution in childFunc() */
 
-	int tid = clone(childFunc, stackTop, flags | CHILD_SIG, &cp);
+	pid_t newtid_at_parent = -2, newtid_at_child = -2;
+	flags |= CLONE_PARENT_SETTID | CLONE_CHILD_SETTID | CLONE_CHILD_CLEARTID;
+	
+	int tid = clone(childFunc, stackTop, flags | CHILD_SIG, &cp,
+		&newtid_at_parent, nullptr, &newtid_at_child);
 	if (tid == -1)
 		errExit("clone");
 
@@ -219,14 +219,28 @@ main(int argc, char *argv[])
 	pid = waitpid(-1, &status, (CHILD_SIG != SIGCHLD) ? __WCLONE : 0);
 	if (pid == -1)
 	{
-		// This occurs when CLONE_THREAD. We cannot waitpid() on a thread.
-		// so wait for the pipe instead.
-		int c = 0;
-		int err = read(cp.pipefd[STDIN_FILENO], &c, 1);
-		if(err==-1)
-			errExit("read() pipe");
+		// This occurs when flags contains CLONE_THREAD, i.e., we cannot waitpid() on a thread.
+		// 
+		// Alternative way: CLONE_CHILD_CLEARTID enables us to wait for the implict futex
+		// as indication of child's termination.
+		// If the child is still running, newtid_at_child will stay equal to newtid_at_parent.
+		// Once the child ends, the kernel will
+		// (1) reset newtid_at_child to 0 , and at the same time
+		// (2) if any guy is waiting for a futex at newtid_at_child, wake up that guy.
+		
+		//PrnTs("***Parent: newtid %d ; %d.", (int)newtid_at_parent, (int)newtid_at_child); // debug
 
-		PrnTs("Parent: Known child's done by pipe.");
+		syscall(SYS_futex, (int*)&newtid_at_child, FUTEX_WAIT, 
+			-2, // first wait to ensure child has started
+			nullptr, nullptr, 0);
+		
+		syscall(SYS_futex, (int*)&newtid_at_child, FUTEX_WAIT, 
+			(int)newtid_at_parent, // second wait to ensure child has ended
+			nullptr, nullptr, 0);
+		
+		//PrnTs("###Parent: newtid %d ; %d.", (int)newtid_at_parent, (int)newtid_at_child); // debug
+
+		PrnTs("Parent: Known child's done by futex.");
 	}
 	else
 	{
