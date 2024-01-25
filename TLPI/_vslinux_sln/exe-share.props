@@ -16,7 +16,7 @@
 
       <!-- To link a library(resolv, pthread), pick either form below: -->
       <AdditionalDependencies>;;-lresolv;%(AdditionalDependencies)</AdditionalDependencies>
-      <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
+      <LibraryDependencies>;;pthread;dl;%(LibraryDependencies)</LibraryDependencies>
 
     </Link>
 
