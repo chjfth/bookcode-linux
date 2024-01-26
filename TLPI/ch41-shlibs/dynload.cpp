@@ -76,6 +76,26 @@ main(int argc, char* argv[])
 
 	(*funcp)();
 
+	// Test Linux-specific dladdr() .
+
+	Dl_info dli = {};
+
+	int offset = 4;
+	void* funcp_4 = ((char*)funcp + offset); // deliberately add an offset
+	
+	if (dladdr(funcp_4, &dli) == 0)
+	{
+		printf("Unexpect! Error calling dladdr(%p),", funcp_4);
+	}
+	else
+	{
+		printf("dladdr(%p+%d) reports:\n", funcp, offset);
+		printf(".dli_fname = %s\n", dli.dli_fname);
+		printf(".dli_fbase = %p\n", dli.dli_fbase);
+		printf(".dli_sname = %s\n", dli.dli_sname);
+		printf(".dli_saddr = %p\n", dli.dli_saddr);
+	}
+	
 	dlclose(libHandle);                         /* Close the library */
 
 	exit(EXIT_SUCCESS);
