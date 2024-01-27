@@ -42,5 +42,9 @@ main(int argc, char *argv[])
 	sysconfPrint("_SC_NGROUPS_MAX:    ", _SC_NGROUPS_MAX);
 	sysconfPrint("_SC_PAGESIZE:       ", _SC_PAGESIZE);
 	sysconfPrint("_SC_RTSIG_MAX:      ", _SC_RTSIG_MAX);
+	printf(".\n");
+	sysconfPrint("_SC_TIMER_MAX:      ", _SC_TIMER_MAX);
+	sysconfPrint("_SC_THREAD_THREADS_MAX:", _SC_THREAD_THREADS_MAX);
+	sysconfPrint("_SC_BAD_INDEX_4444  :", 4444);
 	exit(EXIT_SUCCESS);
 }
