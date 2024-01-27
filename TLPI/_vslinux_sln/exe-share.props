@@ -5,7 +5,7 @@
     <ClCompile>
       <CppLanguageStandard>c++14</CppLanguageStandard>
 
-      <PreprocessorDefinitions>;;_XOPEN_SOURCE=600;_DEFAULT_SOURCE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_XOPEN_SOURCE=600;_DEFAULT_SOURCE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 
       <!-- We need "tlpi_hdr.h" from ../lib . -->
       <AdditionalIncludeDirectories>../lib;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -15,9 +15,12 @@
     <Link>
 
       <!-- To link a library(resolv, pthread), pick either form below: -->
-      <AdditionalDependencies>;;-lresolv;%(AdditionalDependencies)</AdditionalDependencies>
-      <LibraryDependencies>;;pthread;dl;%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalDependencies>-lresolv;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="$(TLPI_MANUAL_LINK_LIB)==1">-ltlpi;%(AdditionalDependencies)</AdditionalDependencies>
 
+      <LibraryDependencies>pthread;dl;%(LibraryDependencies)</LibraryDependencies>
+
+      <AdditionalLibraryDirectories Condition="$(TLPI_MANUAL_LINK_LIB)==1">../lib/bin.linux/$(Platform)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
 
   </ItemDefinitionGroup>
