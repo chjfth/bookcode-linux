@@ -12,14 +12,32 @@
 #include "tlpi_hdr.h"
 #include "PrnTs.h"
 
-pid_t g_childtid = 0;
+bool g_is_block_childsig = false;
+int g_sigord = 0; // the signal number
+
+void block_or_unblock_signal(int signo, bool isblock)
+{
+    sigset_t blockset = {};
+    sigemptyset(&blockset);
+    sigaddset(&blockset, signo);
+
+    int err = pthread_sigmask(isblock ? SIG_BLOCK : SIG_UNBLOCK, &blockset, nullptr);
+    if (err != 0)
+        errExitEN(err, "pthread_sigmask(SIG_BLOCK)");
+}
 
 static void*
 threadFunc(void* arg)
 {
     (void)arg;
-    g_childtid = gettid();
-    PrnTs("Child thread: PID=%ld, TID=%ld", (long)getpid(), (long)g_childtid);
+    PrnTs("Child thread: PID=%ld, TID=%ld", (long)getpid(), (long)gettid());
+
+    if (g_is_block_childsig)
+    {
+        block_or_unblock_signal(g_sigord, true);
+        const char* signame = strsigname(g_sigord);
+        printf("==== Now child thread blocks %s. ====\n", signame);
+    }
 
 	for(;;)
 		pause();
@@ -37,6 +55,7 @@ sighandler(int sig)
 void  print_help()
 {
     printf(
+        "whogetsig v1.0\n"
         "This program installs a signal-handler in main(), for a specific signal,\n"
         "and creates a child thread. The signal-handler prints gettid() value,\n"
         "so that we can know which thread is delivered that signal.\n"
@@ -45,17 +64,21 @@ void  print_help()
         "For example:\n"
         "    whogetsig 14\n"
         "    whogetsig -14\n"
+        "    whogetsig --14\n"
         "    whogetsig -14 20\n"
         "\n"
         "* 14 is the signal-number of SIGALRM.\n"
-        "* If a leading \"-\" is present, then that signal is deliberately blocked\n"
+        "* If one leading \"-\" is present, then that signal is deliberately blocked\n"
         "  (masked) for the main thread, but not masked off for child thread.\n"
+        "* If two leading \"-\" is present, then that signal is blocked for both\n"
+        "  main thread and child thread.\n"
         "* Second parameter(20) tells main thread to wait 20 seconds before unblocking\n"
         "  the signal, and then quit the whole program.\n"
         "\n"
-        "We'll see that, for process-wide signal-number like SIGALRM: If you send\n"
-        "that signal to main thread and the main thread is blocking that signal, \n"
-        "the system will immediately deliver that signal to the child thread.\n"
+        "We'll see that, kill() and tgkill() behave differently on signal sending.\n"
+        "* kill() sends the signal process-wide, any thread not-blocking that signal\n"
+        "  will be elected by the system to run the signal-handler.\n"
+        "* tgkill() sends the signal thread-specific, only the target TID can handle it.\n"
     );
 }
 
@@ -70,19 +93,21 @@ main(int argc, char* argv[])
 
     bool is_block_mainsig = false;
     const char* signum = argv[1];
-    if (signum[0] == '-') {
+    if (*signum == '-') {
         is_block_mainsig = true;
         signum++;
     }
 
+	if(*signum == '-')	{ // second '-'
+        g_is_block_childsig = true;
+        signum++;
+	}
+
     int sigord = (int)strtoul(signum, nullptr, 0);
+    g_sigord = sigord;
     const char *signame = strsigname(sigord);
     if (!signame)
         errExit("strsigname()");
-
-    sigset_t blockset = {};
-    sigemptyset(&blockset);
-    sigaddset(&blockset, sigord);
 
     printf("Using signal-number %d (%s)\n", sigord, signame);
 	
@@ -109,14 +134,11 @@ main(int argc, char* argv[])
 	
 	if(is_block_mainsig)
 	{
-        err = pthread_sigmask(SIG_BLOCK, &blockset, nullptr);
-        if (err != 0)
-            errExitEN(err, "pthread_sigmask(SIG_BLOCK)");
-
+        block_or_unblock_signal(sigord, true);
         printf("==== Now main thread blocks %s for %d seconds. ====\n", signame, block_seconds);
     }
 
-	printf("You can run `kill -%s %ld` from another terminal,\n", signame, (long)maintid);
+	printf("You can do kill() or tgkill() from another terminal,\n", signame, (long)maintid);
     printf("and see which thread(TID) executes the signal handler.\n");
     printf("This program will quit in %d seconds.\n", block_seconds);
     printf("\n");
@@ -136,9 +158,7 @@ main(int argc, char* argv[])
     if (is_block_mainsig)
     {
         PrnTs("Unblocking main thread's %s.", signame);
-        err = pthread_sigmask(SIG_UNBLOCK, &blockset, nullptr);
-        if (err != 0)
-            errExitEN(err, "pthread_sigmask(SIG_UNBLOCK)");
+        block_or_unblock_signal(sigord, false);
     }
 	
 	// For simplicity, we omit pthread_join().
