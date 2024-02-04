@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
+#include <sys/signal.h>
 
 #include "PrnTs.h"
 
@@ -103,4 +104,67 @@ void PrnTs(const char* fmt, ...)
 	printf("%s", buf);
 
 	s_prev_msec = now_msec;
+}
+
+#define MPAIR(sig) { sig, #sig }
+
+#define SIGRTMIN1 (SIGRTMIN+1)
+#define SIGRTMIN2 (SIGRTMIN+2)
+#define SIGRTMIN3 (SIGRTMIN+3)
+#define SIGRTMIN4 (SIGRTMIN+4)
+
+const char* strsigname(int signo)
+{
+	struct sigmap_st
+	{
+		int signo;
+		const char* name;
+	};
+	static sigmap_st s_map[] =
+	{
+		MPAIR(SIGHUP),
+		MPAIR(SIGINT),
+		MPAIR(SIGQUIT),
+		MPAIR(SIGILL),
+		MPAIR(SIGTRAP),
+		MPAIR(SIGABRT),
+		MPAIR(SIGBUS),
+		MPAIR(SIGFPE),
+		MPAIR(SIGKILL),
+		MPAIR(SIGUSR1),
+		MPAIR(SIGSEGV),
+		MPAIR(SIGUSR2),
+		MPAIR(SIGPIPE),
+		MPAIR(SIGALRM),
+		MPAIR(SIGTERM),
+		MPAIR(SIGSTKFLT),
+		MPAIR(SIGCHLD),
+		MPAIR(SIGCONT),
+		MPAIR(SIGSTOP),
+		MPAIR(SIGTSTP),
+		MPAIR(SIGTTIN),
+		MPAIR(SIGTTOU),
+		MPAIR(SIGURG),
+		MPAIR(SIGXCPU),
+		MPAIR(SIGXFSZ),
+		MPAIR(SIGVTALRM),
+		MPAIR(SIGPROF),
+		MPAIR(SIGWINCH),
+		MPAIR(SIGIO),
+		MPAIR(SIGPWR),
+		MPAIR(SIGSYS),
+		MPAIR(SIGRTMIN),
+		MPAIR(SIGRTMIN1),
+		MPAIR(SIGRTMIN2),
+		MPAIR(SIGRTMIN3),
+		MPAIR(SIGRTMIN4),
+	};
+
+	for(int i=0; i<ARRAYSIZE(s_map); i++)
+	{
+		if (s_map[i].signo == signo)
+			return s_map[i].name;
+	}
+
+	return nullptr;
 }
