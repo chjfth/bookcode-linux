@@ -83,3 +83,10 @@ strerror(int err)
 
 	return buf;
 }
+
+void test_delete_tsd_key()
+{
+	int err = pthread_key_delete(strerrorKey);
+	if (err)
+		errExitEN(err, "pthread_key_delete");
+}

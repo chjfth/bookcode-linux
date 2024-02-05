@@ -54,5 +54,9 @@ main(int argc, char *argv[])
 
 	printf("Main thread:  str (%p) = %s\n", str, str);
 
+#ifdef DO_DELETE_TSD_KEY
+	extern void test_delete_tsd_key();
+	test_delete_tsd_key();
+#endif
 	exit(EXIT_SUCCESS);
 }

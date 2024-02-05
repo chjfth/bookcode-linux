@@ -14,8 +14,11 @@
 
    An implementation of strerror() that is not thread-safe.
 */
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE                 /* Get '_sys_nerr' and '_sys_errlist'
 									   declarations from <stdio.h> */
+#endif
+
 #include <stdio.h>
 #include <string.h>                 /* Get declaration of strerror() */
 
