@@ -1,10 +1,12 @@
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
 #include <sys/signal.h>
+#include <pthread.h>
 
 #include "PrnTs.h"
 
@@ -16,6 +18,8 @@
 #ifndef __int64
 #define __int64 long long
 #endif
+
+static pthread_mutex_t s_prnts_mtx = PTHREAD_MUTEX_INITIALIZER;
 
 
 char* now_timestr(char buf[], int bufchars, bool ymd = false)
@@ -66,6 +70,10 @@ __int64 GetTickCount64()
 
 void PrnTs(const char* fmt, ...)
 {
+	int err = pthread_mutex_lock(&s_prnts_mtx);
+	if (err != 0)
+		abort();
+
 	static __int64 s_prev_msec = GetTickCount64();
 
 	__int64 now_msec = GetTickCount64();
@@ -104,6 +112,10 @@ void PrnTs(const char* fmt, ...)
 	printf("%s", buf);
 
 	s_prev_msec = now_msec;
+
+	err = pthread_mutex_unlock(&s_prnts_mtx);
+	if (err != 0)
+		abort();
 }
 
 #define MPAIR(sig) { sig, #sig }
