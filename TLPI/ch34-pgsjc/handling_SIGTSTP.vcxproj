@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20231228-0000-0000-0000-205316000001}</ProjectGuid>
-    <ProjectName>06.handling_SIGTSTP</ProjectName>
+    <ProjectName>34-6.handling_SIGTSTP</ProjectName>
     <TargetName>handling_SIGTSTP</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

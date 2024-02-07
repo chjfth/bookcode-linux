@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20231215-0000-0000-0000-012009000001}</ProjectGuid>
-    <ProjectName>03.catch_SIGHUP</ProjectName>
+    <ProjectName>34-3.catch_SIGHUP</ProjectName>
     <TargetName>catch_SIGHUP</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

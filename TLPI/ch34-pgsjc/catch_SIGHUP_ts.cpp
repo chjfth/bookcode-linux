@@ -10,7 +10,7 @@
 
 /* Listing 34-3 */
 
-/* catch_SIGHUP.c
+/* catch_SIGHUP_ts.cpp // Chj: Using PrnTs instead of printf
 
    Catch the SIGHUP signal and display a message.
 

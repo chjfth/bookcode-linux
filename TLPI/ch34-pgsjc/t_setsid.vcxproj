@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20231214-0000-0000-0000-222306000001}</ProjectGuid>
-    <ProjectName>02.t_setsid</ProjectName>
+    <ProjectName>34-2.t_setsid</ProjectName>
     <TargetName>t_setsid</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

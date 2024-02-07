@@ -10,7 +10,7 @@
 
 /* Listing 34-7 */
 
-/* orphaned_pgrp_SIGHUP.c
+/* orphaned_pgrp_SIGHUP_ts.c // Chj: Using PrnTs instead of printf
 
    Usage: orphaned_pgrp_SIGHUP {s|p} ...
 

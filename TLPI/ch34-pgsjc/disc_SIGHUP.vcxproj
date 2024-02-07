@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20231215-0000-0000-0000-012832000001}</ProjectGuid>
-    <ProjectName>04.disc_SIGHUP</ProjectName>
+    <ProjectName>34-4.disc_SIGHUP</ProjectName>
     <TargetName>disc_SIGHUP</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

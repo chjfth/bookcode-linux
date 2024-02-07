@@ -10,7 +10,7 @@
 
 /* Listing 34-6 */
 
-/* handling_SIGTSTP.c
+/* handling_SIGTSTP_ts.cpp // Chj: Using PrnTs instead of printf
 
    Demonstrate the correct way to catch SIGTSTP and raise it again (so that a
    parent process that is monitoring this program can see that it was stopped

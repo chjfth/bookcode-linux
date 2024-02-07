@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20231229-0000-0000-0000-06483600000A}</ProjectGuid>
-    <ProjectName>07a.orphaned_pgrp_SIGHUP_ts</ProjectName>
+    <ProjectName>34-7a.orphaned_pgrp_SIGHUP_ts</ProjectName>
     <TargetName>orphaned_pgrp_SIGHUP_ts</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

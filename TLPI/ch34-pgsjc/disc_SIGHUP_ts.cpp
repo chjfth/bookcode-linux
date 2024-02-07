@@ -10,7 +10,7 @@
 
 /* Listing 34-4 */
 
-/* disc_SIGHUP.c
+/* disc_SIGHUP_ts.cpp // Chj: Use PrnTs instead of printf
 
    This program demonstrates that when a "terminal disconnect" occurs, SIGHUP
    is sent to all the members of the foreground process group for this terminal.

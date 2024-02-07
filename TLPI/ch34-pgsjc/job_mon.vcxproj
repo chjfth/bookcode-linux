@@ -67,7 +67,7 @@
   
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20231215-0000-0000-0000-013215000001}</ProjectGuid>
-    <ProjectName>05.job_mon</ProjectName>
+    <ProjectName>34-5.job_mon</ProjectName>
     <TargetName>job_mon</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>

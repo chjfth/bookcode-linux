@@ -1,6 +1,6 @@
 /* disc_SIGHUP_ignore.cpp
  
-Chj: This file differs fro disc_SIGHUP.cpp in that:
+Chj: This file differs from disc_SIGHUP.cpp in that:
 The parent process deliberately ignores SIGHUP, and we want to find out
 whether STO-disconnect will kill the parent process.
 
@@ -16,9 +16,24 @@ By running
 from a telnet/ssh terminal, then close the terminal(PuTTY) window,
 and after 60 seconds has passed, sig2.log has something like this:
 
-
+$ cat ~/barn/x64/__Debug-remote-gcc/sig2.log
+[00:53:25.772](+  0.000s) PID of parent process is:       8492
+[00:53:25.772](+  0.000s) Foreground process group ID is: 8492
+[00:53:25.772](+  0.000s) Parent process(me) now ignores SIGHUP.
+[00:53:25.873](+  0.101s) PID=9277 PGID=8492
+[00:53:25.873](+  0.101s) PID=9276 PGID=8492
+[00:53:25.973](+  0.201s) PID=9275 PGID=9275
+.
+[00:54:15.773](+ 50.001s) [Note]Parent process's parent PID has changed from 8488 to 1.
+.
+[00:54:15.773](+ 49.900s) PID 9277: caught signal  1 (Hangup)
+.
+[00:54:15.773](+ 49.900s) PID 9276: caught signal  1 (Hangup)
 */
+
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE     /* Get strsignal() declaration from <string.h> */
+#endif
 #include <time.h>
 #include <string.h>
 #include <signal.h>
