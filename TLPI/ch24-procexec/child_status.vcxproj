@@ -114,13 +114,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   
-  <!-- 
-    Import TLPI book suggested EXE shared compiler/linker options, e.g.,
-      -D_XOPEN_SOURCE=600 -D_DEFAULT_SOURCE 
-  -->
   <ImportGroup Label="PropertySheets">
-    <Import Project="..\_vslinux_sln\exe-share.props" />
+    <Import Project="..\_vslinux_sln\envvars.props" Condition="exists('..\_vslinux_sln\envvars.props')" />
     <Import Project="..\_vslinux_sln\import-tlpi-lib.props" />
+	
+	<!-- Import EXE shared compiler/linker options for TLPI. -->
+    <Import Project="..\_vslinux_sln\exe-share.props" />
   </ImportGroup>
 
   <!-- 
