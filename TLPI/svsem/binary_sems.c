@@ -48,7 +48,7 @@ reserveSem(int semId, int semNum)
 {
     struct sembuf sops;
 
-    sops.sem_num = semNum;
+    sops.sem_num = (unsigned short int)semNum;
     sops.sem_op = -1;
     sops.sem_flg = bsUseSemUndo ? SEM_UNDO : 0;
 
@@ -64,7 +64,7 @@ releaseSem(int semId, int semNum)
 {
     struct sembuf sops;
 
-    sops.sem_num = semNum;
+    sops.sem_num = (unsigned short int)semNum;
     sops.sem_op = 1;
     sops.sem_flg = bsUseSemUndo ? SEM_UNDO : 0;
 

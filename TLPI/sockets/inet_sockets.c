@@ -180,9 +180,9 @@ inetAddressStr(const struct sockaddr *addr, socklen_t addrlen,
 
     if (getnameinfo(addr, addrlen, host, NI_MAXHOST,
                     service, NI_MAXSERV, NI_NUMERICSERV) == 0)
-        snprintf(addrStr, addrStrLen, "(%s, %s)", host, service);
+        snprintf(addrStr, (size_t)addrStrLen, "(%s, %s)", host, service);
     else
-        snprintf(addrStr, addrStrLen, "(?UNKNOWN?)");
+        snprintf(addrStr, (size_t)addrStrLen, "(?UNKNOWN?)");
 
     return addrStr;
 }

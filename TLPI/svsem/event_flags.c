@@ -29,7 +29,7 @@ waitForEventFlag(int semId, int semNum)
 {
     struct sembuf sops;
 
-    sops.sem_num = semNum;
+    sops.sem_num = (unsigned short int)semNum;
     sops.sem_op = 0;                    /* Wait for semaphore to equal 0 */
     sops.sem_flg = 0;
 
