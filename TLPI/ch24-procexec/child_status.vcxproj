@@ -120,6 +120,7 @@
   -->
   <ImportGroup Label="PropertySheets">
     <Import Project="..\_vslinux_sln\exe-share.props" />
+    <Import Project="..\_vslinux_sln\import-tlpi-lib.props" />
   </ImportGroup>
 
   <!-- 
@@ -256,11 +257,6 @@
     <!-- 
     <ClInclude Include="ps_headers.h" />
      -->
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\lib\00_libtlpi.vcxproj">
-      <Project>{20231214-0000-0000-0000-211843000001}</Project>
-    </ProjectReference>
   </ItemGroup>
 
   <!-- MSBuild system stock Cpp.targets -->

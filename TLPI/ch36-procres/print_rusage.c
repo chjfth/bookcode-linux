@@ -27,8 +27,8 @@ printRusage(const char *leader, const struct rusage *ru)
     ldr = (leader == NULL) ? "" : leader;
 
     printf("%sCPU time (secs):         user=%.3f; system=%.3f\n", ldr,
-            ru->ru_utime.tv_sec + ru->ru_utime.tv_usec / 1000000.0,
-            ru->ru_stime.tv_sec + ru->ru_stime.tv_usec / 1000000.0);
+            (double)ru->ru_utime.tv_sec + (double)ru->ru_utime.tv_usec / 1000000.0,
+			(double)ru->ru_stime.tv_sec + (double)ru->ru_stime.tv_usec / 1000000.0);
     printf("%sMax resident set size:   %ld\n", ldr, ru->ru_maxrss);
     printf("%sIntegral shared memory:  %ld\n", ldr, ru->ru_ixrss);
     printf("%sIntegral unshared data:  %ld\n", ldr, ru->ru_idrss);
