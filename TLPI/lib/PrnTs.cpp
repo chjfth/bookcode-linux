@@ -90,11 +90,12 @@ void PrnTs(const char* fmt, ...)
 	char timebuf[40] = {};
 	now_timestr(timebuf, ARRAYSIZE(timebuf));
 
-	snprintf(buf, sizeof(timebuf), "%s(+%3u.%03us) ",
-		timebuf,
+	int prefixlen = (int)strlen(timebuf);
+	
+	snprintf(buf+prefixlen, sizeof(timebuf)-prefixlen, "(+%3u.%03us) ",
 		delta_msec / 1000, delta_msec % 1000);
 
-	int prefixlen = (int)strlen(buf);
+	prefixlen = (int)strlen(buf);
 
 	va_list args;
 	va_start(args, fmt);
