@@ -72,5 +72,5 @@ readLineBuf(struct ReadLineBuf *rlbuf, char *buffer, size_t n)
             break;
     }
 
-    return cnt;
+    return (ssize_t)cnt;
 }

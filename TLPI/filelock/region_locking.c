@@ -24,8 +24,8 @@ lockReg(int fd, int cmd, int type, int whence, int start, off_t len)
 {
     struct flock fl;
 
-    fl.l_type = type;
-    fl.l_whence = whence;
+    fl.l_type = (short int)type;
+    fl.l_whence = (short int)whence;
     fl.l_start = start;
     fl.l_len = len;
 
@@ -52,8 +52,8 @@ regionIsLocked(int fd, int type, int whence, int start, int len)
 {
     struct flock fl;
 
-    fl.l_type = type;
-    fl.l_whence = whence;
+    fl.l_type = (short int)type;
+    fl.l_whence = (short int)whence;
     fl.l_start = start;
     fl.l_len = len;
 

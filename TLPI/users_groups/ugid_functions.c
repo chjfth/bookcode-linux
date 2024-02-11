@@ -37,15 +37,15 @@ userIdFromName(const char *name)
     char *endptr;
 
     if (name == NULL || *name == '\0')  /* On NULL or empty string */
-        return -1;                      /* return an error */
+        return (uid_t)-1;                      /* return an error */
 
-    u = strtol(name, &endptr, 10);      /* As a convenience to caller */
+    u = (uid_t) strtol(name, &endptr, 10);      /* As a convenience to caller */
     if (*endptr == '\0')                /* allow a numeric string */
         return u;
 
     pwd = getpwnam(name);
     if (pwd == NULL)
-        return -1;
+        return (uid_t)-1;
 
     return pwd->pw_uid;
 }
@@ -67,15 +67,15 @@ groupIdFromName(const char *name)
     char *endptr;
 
     if (name == NULL || *name == '\0')  /* On NULL or empty string */
-        return -1;                      /* return an error */
+        return (gid_t)-1;                      /* return an error */
 
-    g = strtol(name, &endptr, 10);      /* As a convenience to caller */
+    g = (gid_t) strtol(name, &endptr, 10);      /* As a convenience to caller */
     if (*endptr == '\0')                /* allow a numeric string */
         return g;
 
     grp = getgrnam(name);
     if (grp == NULL)
-        return -1;
+        return (gid_t)-1;
 
     return grp->gr_gid;
 }

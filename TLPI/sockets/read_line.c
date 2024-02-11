@@ -69,5 +69,5 @@ readLine(int fd, void *buffer, size_t n)
     }
 
     *buf = '\0';
-    return totRead;
+    return (ssize_t)totRead;
 }

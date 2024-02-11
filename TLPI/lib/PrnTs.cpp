@@ -173,7 +173,7 @@ const char* strsigname(int signo)
 		MPAIR(SIGRTMIN4),
 	};
 
-	for(int i=0; i<ARRAYSIZE(s_map); i++)
+	for(int i=0; i<(int)ARRAYSIZE(s_map); i++)
 	{
 		if (s_map[i].signo == signo)
 			return s_map[i].name;

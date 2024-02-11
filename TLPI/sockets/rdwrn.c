@@ -12,7 +12,7 @@
 
 /* rdwrn.c
 
-   Implementations of readn() and writen().
+   Implementations of readn() and written().
 */
 #include <unistd.h>
 #include <errno.h>
@@ -33,17 +33,17 @@ readn(int fd, void *buffer, size_t n)
         numRead = read(fd, buf, n - totRead);
 
         if (numRead == 0)               /* EOF */
-            return totRead;             /* May be 0 if this is first read() */
+            return (ssize_t)totRead;    /* May be 0 if this is first read() */
         if (numRead == -1) {
             if (errno == EINTR)
                 continue;               /* Interrupted --> restart read() */
             else
                 return -1;              /* Some other error */
         }
-        totRead += numRead;
+        totRead += (size_t)numRead;
         buf += numRead;
     }
-    return totRead;                     /* Must be 'n' bytes if we get here */
+    return (ssize_t)totRead;                     /* Must be 'n' bytes if we get here */
 }
 
 /* Write 'n' bytes to 'fd' from 'buf', restarting after partial
@@ -69,8 +69,8 @@ writen(int fd, const void *buffer, size_t n)
             else
                 return -1;              /* Some other error */
         }
-        totWritten += numWritten;
+        totWritten += (size_t)numWritten;
         buf += numWritten;
     }
-    return totWritten;                  /* Must be 'n' bytes if we get here */
+    return (ssize_t)totWritten;                  /* Must be 'n' bytes if we get here */
 }
