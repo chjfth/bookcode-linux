@@ -119,9 +119,9 @@
     <RemoteLdToolExe>x86_64-linux-gnu-g++</RemoteLdToolExe>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='ARM'">
-    <RemoteCCompileToolExe>arm-linux-gnueabi-gcc</RemoteCCompileToolExe>
-    <RemoteCppCompileToolExe>arm-linux-gnueabi-g++</RemoteCppCompileToolExe>
-    <RemoteLdToolExe>arm-linux-gnueabi-g++</RemoteLdToolExe>
+    <RemoteCCompileToolExe>arm-linux-gnueabihf-gcc</RemoteCCompileToolExe>
+    <RemoteCppCompileToolExe>arm-linux-gnueabihf-g++</RemoteCppCompileToolExe>
+    <RemoteLdToolExe>arm-linux-gnueabihf-g++</RemoteLdToolExe>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <RemoteCCompileToolExe>aarch64-linux-gnu-gcc</RemoteCCompileToolExe>

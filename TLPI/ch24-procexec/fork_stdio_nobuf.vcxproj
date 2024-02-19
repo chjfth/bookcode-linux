@@ -139,7 +139,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='ARM'">
     <VSLINUX_GCC_PREFIX>$(VSLINUX_GCC_PREFIX_ARM)</VSLINUX_GCC_PREFIX>
-    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM)'==''">arm-linux-gnueabi-</VSLINUX_GCC_PREFIX>
+    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM)'==''">arm-linux-gnueabihf-</VSLINUX_GCC_PREFIX>
     <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM)'=='none'">
     </VSLINUX_GCC_PREFIX>
   </PropertyGroup>
