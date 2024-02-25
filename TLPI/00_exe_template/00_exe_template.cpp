@@ -24,25 +24,25 @@
 int
 main(int argc, char *argv[])
 {
-    if (fork() != 0)            /* Exit if parent, or on error */
-        _exit(EXIT_SUCCESS);
+	if (fork() != 0)            /* Exit if parent, or on error */
+		_exit(EXIT_SUCCESS);
 
-    long pid = getpid();
-    long pgid = getpgrp();
-    long sid = getsid(0);
+	long pid = getpid();
+	long pgid = getpgrp();
+	long sid = getsid(0);
 
-    printf("[Before child setsid()] PID=%ld, PGID=%ld, SID=%ld\n",
-        pid, pgid, sid);
+	printf("[Before child setsid()] PID=%ld, PGID=%ld, SID=%ld\n",
+		pid, pgid, sid);
 	
-    if (setsid() == -1)
-        errExit("setsid");
+	if (setsid() == -1)
+		errExit("setsid");
 
-    printf("[After  child setsid()] PID=%ld, PGID=%ld, SID=%ld\n", 
-        (long) getpid(), (long) getpgrp(), (long) getsid(0));
+	printf("[After  child setsid()] PID=%ld, PGID=%ld, SID=%ld\n", 
+		(long) getpid(), (long) getpgrp(), (long) getsid(0));
 
-    /* Following should fail, since we don't have a controlling terminal */
+	/* Following should fail, since we don't have a controlling terminal */
 
-    if (open("/dev/tty", O_RDWR) == -1)
-        errExit("open /dev/tty");
-    exit(EXIT_SUCCESS);
+	if (open("/dev/tty", O_RDWR) == -1)
+		errExit("open /dev/tty");
+	exit(EXIT_SUCCESS);
 }
