@@ -10,6 +10,8 @@ void PrnTs(const char* fmt, ...);
 
 const char* strsigname(int signo);
 
+void print_my_PXIDs();
+
 	
 extern"C++"
 template <typename TElement, int N>

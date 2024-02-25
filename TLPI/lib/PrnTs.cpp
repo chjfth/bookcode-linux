@@ -7,6 +7,8 @@
 #include <sys/time.h>
 #include <sys/signal.h>
 #include <pthread.h>
+#include <sys/fsuid.h> // setfsuid()
+#include "ugid_functions.h"
 
 #include "PrnTs.h"
 
@@ -181,3 +183,49 @@ const char* strsigname(int signo)
 
 	return nullptr;
 }
+
+static uid_t getfsuid()
+{
+	return setfsuid(-1); // Ubuntu 20.04 ok
+}
+
+static uid_t getfsgid()
+{
+	return setfsgid(-1);
+}
+
+void print_my_PXIDs()
+{
+	uid_t ruid, euid, suid, fsuid;
+	gid_t rgid, egid, sgid, fsgid;
+	char* p;
+
+	if (getresuid(&ruid, &euid, &suid) == -1)
+		errExit("getresuid");
+	if (getresgid(&rgid, &egid, &sgid) == -1)
+		errExit("getresgid");
+
+	fsuid = getfsuid();
+	fsgid = getfsgid();
+
+	p = userNameFromId(ruid);
+	printf("RUID=%s (%ld); ", (p == NULL) ? "???" : p, (long)ruid);
+	p = userNameFromId(euid);
+	printf("EUID=%s (%ld); ", (p == NULL) ? "???" : p, (long)euid);
+	p = userNameFromId(suid);
+	printf("SSUID=%s (%ld); ", (p == NULL) ? "???" : p, (long)suid);
+	p = userNameFromId(fsuid);
+	printf("FSUID=%s (%ld); ", (p == NULL) ? "???" : p, (long)fsuid);
+	printf("\n");
+
+	p = groupNameFromId(rgid);
+	printf("RGID=%s (%ld); ", (p == NULL) ? "???" : p, (long)rgid);
+	p = groupNameFromId(egid);
+	printf("EGID=%s (%ld); ", (p == NULL) ? "???" : p, (long)egid);
+	p = groupNameFromId(sgid);
+	printf("SSGID=%s (%ld); ", (p == NULL) ? "???" : p, (long)sgid);
+	p = groupNameFromId(fsgid);
+	printf("FSGID=%s (%ld); ", (p == NULL) ? "???" : p, (long)fsgid);
+	printf("\n");
+}
+
