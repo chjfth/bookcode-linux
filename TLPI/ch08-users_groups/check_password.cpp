@@ -52,7 +52,7 @@ main(int argc, char *argv[])
 
 	printf("Username: ");
 	fflush(stdout);
-	if (fgets(username, lnmax, stdin) == NULL)
+	if (fgets(username, (int)lnmax, stdin) == NULL)
 		exit(EXIT_FAILURE);             /* Exit on EOF */
 
 	len = strlen(username);

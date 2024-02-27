@@ -5,6 +5,13 @@
     <!-- Set TLPI_MANUAL_LINK_LIB=1 to avoid VSIDE's automatically trying to build libtlpi.a 
          every time when we start building an EXE project. -->
     <TLPI_MANUAL_LINK_LIB>1</TLPI_MANUAL_LINK_LIB>
+
+    <!-- Set TLPI_POSTBUILD_RUN_ROOT=1 to run some sudo command after linking.
+         This is applicable to:
+           CH08 check_password : Make the exe set-UID-root.
+           CH39 check_password_cap : Run setcap on the exe.
+    -->
+    <TLPI_POSTBUILD_RUN_ROOT>1</TLPI_POSTBUILD_RUN_ROOT>
   </PropertyGroup>
 
 </Project>
