@@ -191,7 +191,8 @@
     <!-- [20230326.R2] Chj: Workaround for a special project trait on VC2019 VSLinux. 
       If .sln is in parent path of .vcxproj, Remote_GCC_1_0 tries to launch wrong exe path on Linux. So we need this.
     -->
-    <RemoteDebuggerCommand Condition="$(Configuration.EndsWith('-remote-gcc'))">$(RemoteDeployDir)/bin.linux/$(Platform)/$(Configuration)/$(TargetName)$(TargetExt)</RemoteDebuggerCommand>
+    <remote_TargetExe>$(RemoteDeployDir)/bin.linux/$(Platform)/$(Configuration)/$(TargetName)$(TargetExt)</remote_TargetExe>
+    <RemoteDebuggerCommand Condition="$(Configuration.EndsWith('-remote-gcc'))">$(remote_TargetExe)</RemoteDebuggerCommand>
   </PropertyGroup>
 
   <!-- 
@@ -209,7 +210,7 @@
 
 
   <!-- 
-  	Compiler/Linker Behavior Settings : shared 
+  	Compiler/Linker Behavior Settings : Debug/Release shared 
   -->
   <ItemDefinitionGroup>
     <ClCompile>
@@ -218,6 +219,12 @@
     <Link>
       <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <RemotePostBuildEvent Condition="$(TLPI_POSTBUILD_RUN_ROOT)==1">
+      <!-- You can enable RemotePostBuildEvent commands if needed:
+      <Command>sudo chown root.root $(remote_TargetExe) ; sudo chmod u+s $(remote_TargetExe)</Command>
+      <Message>Making the target executable set-UID-root. You should have set your Linux user to allow silent sudo.</Message>
+       -->
+    </RemotePostBuildEvent>
     <!-- Better build.log file naming -->
     <BuildLog>
       <Path>$(IntDir)__$(MSBuildProjectName).build.log</Path>
