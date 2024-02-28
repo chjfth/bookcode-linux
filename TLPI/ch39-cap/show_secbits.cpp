@@ -27,6 +27,9 @@ void p812_make_me_purely_capabase() // Chj adds this
 	{
 		printf("prctl(PR_SET_SECUREBITS,...) error. errno=%d (%s)\n",
 			errno, strerror(errno));
+		printf("Note: In order to success, you need to sudo, or:\n");
+		printf("    sudo setcap \"cap_setpcap = pe\" show_secbits.out\n");
+		printf("\n");
 	}
 	else
 	{
