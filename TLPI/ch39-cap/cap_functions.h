@@ -22,6 +22,10 @@
 #include <sys/capability.h>
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern"C" {
+#endif
+
 /* Change the 'setting' of the specified 'capability' in the capability set
    specified by 'flag'.
 
@@ -35,6 +39,11 @@ int modifyCapSetting(cap_flag_t flag, int capability, int setting);
 /* Display a securebits mask in either short or long form, depending on
    the value of 'verbose'. */
 
-void printSecbits(int secbits, bool verbose, FILE *fp);
+void printSecbits(int secbits, bool verbose, FILE* fp);
+
+
+#ifdef __cplusplus
+} // extern"C" {
+#endif
 
 #endif

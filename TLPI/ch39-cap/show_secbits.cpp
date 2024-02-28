@@ -19,14 +19,14 @@
 int
 main(int argc, char *argv[])
 {
-    int secbits = prctl(PR_GET_SECUREBITS, 0, 0, 0, 0);
-    if (secbits == -1)
-        errExit("prctl");
+	int secbits = prctl(PR_GET_SECUREBITS, 0, 0, 0, 0);
+	if (secbits == -1)
+		errExit("prctl");
 
-    printf("secbits = 0x%x => ", secbits);
+	printf("Self-process secbits = 0x%x => ", secbits);
 
-    printSecbits(secbits, argc == 1, stdout);
-    printf("\n");
+	printSecbits(secbits, argc == 1, stdout);
+	printf("\n");
 
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
