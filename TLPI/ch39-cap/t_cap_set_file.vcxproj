@@ -66,9 +66,9 @@
   
   
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{20240228-0000-0000-0000-100409000001}</ProjectGuid>
-    <ProjectName>39-x1r.t_cap_get_file</ProjectName>
-    <TargetName>t_cap_get_file</TargetName>
+    <ProjectGuid>{20240228-0000-0000-0000-134538000001}</ProjectGuid>
+    <ProjectName>39-x1w.t_cap_set_file</ProjectName>
+    <TargetName>t_cap_set_file</TargetName>
     <Keyword>Linux</Keyword>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -179,12 +179,12 @@
 
     <!-- [20230326.R1] This is to workround a possible VS2019 16.11 VSLinux bug: 
       When launching WSL_1_0 exe, VSIDE will go hard to launch exe inside:
-        /mnt/d/gitw/Templates/vs2019/t_cap_get_file/bin/x64/Debug-WSL-gcc
+        /mnt/d/gitw/Templates/vs2019/t_cap_set_file/bin/x64/Debug-WSL-gcc
       instead of the correct:
-        /mnt/d/gitw/Templates/vs2019/t_cap_get_file/bin.linux/x64/Debug-WSL-gcc
+        /mnt/d/gitw/Templates/vs2019/t_cap_set_file/bin.linux/x64/Debug-WSL-gcc
       .
       Without this workaround, user needs to set the `<DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>` 
-      into t_cap_get_file.vcxproj.user to make it work.
+      into t_cap_set_file.vcxproj.user to make it work.
     -->
     <DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>
 
@@ -259,7 +259,7 @@
     Source file list:
    -->
   <ItemGroup>
-    <ClCompile Include="t_cap_get_file.cpp" />
+    <ClCompile Include="t_cap_set_file.cpp" />
   </ItemGroup>
   <ItemGroup>
     <!-- 
