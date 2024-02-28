@@ -8,8 +8,6 @@
 * the file COPYING.gpl-v3 for details.                                    *
 \*************************************************************************/
 
-/* Listing 39-1 */
-
 /* demo_file_caps.c
 
    Display process credentials and capabilities, and attempt to open the
@@ -18,11 +16,10 @@
    This program can be used to do a simple demonstration of file capabilities.
    If the executable is assigned the CAP_DAC_READ_SEARCH capability:
 
-        setcap cap_dac_read_search=pe
+		setcap cap_dac_read_search=pe
 
    then it can open any file for reading.
 */
-#define _GNU_SOURCE
 #include <sys/capability.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -33,39 +30,43 @@
 #include <fcntl.h>
 
 #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
-                        } while (0)
+						} while (0)
 
 int
 main(int argc, char *argv[])
 {
-    cap_t caps;
-    int fd;
-    char *str;
+	/* Fetch and display process capabilities */
 
-    /* Fetch and display process capabilities */
+	printf("Calling cap_get_proc() to get self process's Capas.\n");
+	
+	cap_t caps = cap_get_proc();
+	if (caps == NULL)
+		errExit("cap_get_proc");
 
-    caps = cap_get_proc();
-    if (caps == NULL)
-        errExit("cap_get_proc");
+	char *str = cap_to_text(caps, NULL);
+	if (str == NULL)
+		errExit("cap_to_text");
 
-    str = cap_to_text(caps, NULL);
-    if (str == NULL)
-        errExit("cap_to_text");
+	printf("Capabilities: %s\n", str);
 
-    printf("Capabilities: %s\n", str);
+	cap_free(caps);
+	cap_free(str);
 
-    cap_free(caps);
-    cap_free(str);
+	printf("\n");
 
-    /* If an argument was supplied, try to open that file */
+	/* If an argument was supplied, try to open that file */
 
-    if (argc > 1) {
-        fd = open(argv[1], O_RDONLY);
-        if (fd >= 0)
-            printf("Successfully opened %s\n", argv[1]);
-        else
-            printf("Open failed: %s\n", strerror(errno));
-    }
+	if (argc > 1) {
+		int fd = open(argv[1], O_RDONLY);
+		if (fd >= 0)
+			printf("Successfully opened '%s'\n", argv[1]);
+		else
+			printf("Open failed(errno=%d): %s\n", errno, strerror(errno));
+	}
+	else {
+		printf("Hint: You can pass a filename as parameter(/etc/shadow for example); " 
+			"this program will try to open that file and tell you the result.\n");
+	}
 
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
