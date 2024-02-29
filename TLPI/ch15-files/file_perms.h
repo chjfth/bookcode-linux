@@ -19,9 +19,19 @@
 
 #include <sys/types.h>
 
+#ifdef __cplusplus
+extern"C" {
+#endif
+
+
 #define FP_SPECIAL 1            /* Include set-user-ID, set-group-ID, and sticky
                                    bit information in returned string */
 
 char *filePermStr(mode_t perm, int flags);
+
+
+#ifdef __cplusplus
+} // extern"C" {
+#endif
 
 #endif
