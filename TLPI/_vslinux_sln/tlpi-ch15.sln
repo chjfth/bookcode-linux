@@ -21,6 +21,10 @@ Global
 		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		Release-remote-gcc|ARM = Release-remote-gcc|ARM
+		Release-remote-gcc|ARM64 = Release-remote-gcc|ARM64
+		Release-remote-gcc|x64 = Release-remote-gcc|x64
+		Release-remote-gcc|x86 = Release-remote-gcc|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{20240229-0000-0000-0000-161347000001}.Debug-remote-gcc|ARM.ActiveCfg = Debug-remote-gcc|ARM
@@ -59,6 +63,18 @@ Global
 		{20240229-0000-0000-0000-161347000001}.Release|x86.ActiveCfg = Release|x86
 		{20240229-0000-0000-0000-161347000001}.Release|x86.Build.0 = Release|x86
 		{20240229-0000-0000-0000-161347000001}.Release|x86.Deploy.0 = Release|x86
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|ARM.ActiveCfg = Release-remote-gcc|ARM
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|ARM.Build.0 = Release-remote-gcc|ARM
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|ARM.Deploy.0 = Release-remote-gcc|ARM
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|ARM64.ActiveCfg = Release-remote-gcc|ARM64
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|ARM64.Build.0 = Release-remote-gcc|ARM64
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|ARM64.Deploy.0 = Release-remote-gcc|ARM64
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|x64.ActiveCfg = Release-remote-gcc|x64
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|x64.Build.0 = Release-remote-gcc|x64
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|x64.Deploy.0 = Release-remote-gcc|x64
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|x86.ActiveCfg = Release-remote-gcc|x86
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|x86.Build.0 = Release-remote-gcc|x86
+		{20240229-0000-0000-0000-161347000001}.Release-remote-gcc|x86.Deploy.0 = Release-remote-gcc|x86
 		{20231214-0000-0000-0000-211843000001}.Debug-remote-gcc|ARM.ActiveCfg = Debug-remote-gcc|ARM
 		{20231214-0000-0000-0000-211843000001}.Debug-remote-gcc|ARM.Build.0 = Debug-remote-gcc|ARM
 		{20231214-0000-0000-0000-211843000001}.Debug-remote-gcc|ARM.Deploy.0 = Debug-remote-gcc|ARM
@@ -95,11 +111,23 @@ Global
 		{20231214-0000-0000-0000-211843000001}.Release|x86.ActiveCfg = Release|x86
 		{20231214-0000-0000-0000-211843000001}.Release|x86.Build.0 = Release|x86
 		{20231214-0000-0000-0000-211843000001}.Release|x86.Deploy.0 = Release|x86
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|ARM.ActiveCfg = Release|ARM
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|ARM.Build.0 = Release|ARM
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|ARM.Deploy.0 = Release|ARM
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|ARM64.ActiveCfg = Release|ARM64
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|ARM64.Build.0 = Release|ARM64
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|ARM64.Deploy.0 = Release|ARM64
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|x64.ActiveCfg = Release|x64
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|x64.Build.0 = Release|x64
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|x64.Deploy.0 = Release|x64
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|x86.ActiveCfg = Release|x86
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|x86.Build.0 = Release|x86
+		{20231214-0000-0000-0000-211843000001}.Release-remote-gcc|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {06C5BE28-D46F-4825-99B4-10C253FA4EFE}
+		SolutionGuid = {B04A9B35-FCEA-4BB2-8EAB-18B940128EAB}
 	EndGlobalSection
 EndGlobal

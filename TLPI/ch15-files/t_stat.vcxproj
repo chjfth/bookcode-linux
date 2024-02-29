@@ -10,6 +10,10 @@
       <Configuration>Debug-remote-gcc</Configuration>
       <Platform>x86</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-remote-gcc|x86">
+      <Configuration>Release-remote-gcc</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x86">
       <Configuration>Release</Configuration>
       <Platform>x86</Platform>
@@ -21,6 +25,10 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug-remote-gcc|x64">
       <Configuration>Debug-remote-gcc</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-remote-gcc|x64">
+      <Configuration>Release-remote-gcc</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
@@ -36,6 +44,10 @@
       <Configuration>Debug-remote-gcc</Configuration>
       <Platform>ARM</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-remote-gcc|ARM">
+      <Configuration>Release-remote-gcc</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|ARM">
       <Configuration>Release</Configuration>
       <Platform>ARM</Platform>
@@ -49,22 +61,22 @@
       <Configuration>Debug-remote-gcc</Configuration>
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release-remote-gcc|ARM64">
+      <Configuration>Release-remote-gcc</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  
   <!-- User project properties -->
-  
   <PropertyGroup Condition="$(Configuration.EndsWith('-WSL-gcc'))" Label="Globals">
     <PlatformToolset>WSL_1_0</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.EndsWith('-remote-gcc'))" Label="Globals">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
   </PropertyGroup>
-  
-  
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20240229-0000-0000-0000-161347000001}</ProjectGuid>
     <ProjectName>15-1.t_stat</ProjectName>
@@ -75,17 +87,13 @@
     <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
     <LinuxProjectType>{D51BCBC9-82E9-4017-911E-C93873C4EA2B}</LinuxProjectType>
   </PropertyGroup>
-
   <!-- Microsoft.Cpp.Default.props 
   	For Linux .vcxproj, this should be after above "global" Properties. -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  
   <PropertyGroup Label="Configuration">
-
     <!-- If we need to create a static lib xxx.a , not xxx.out executable, enable this:  
          (This must be set *after* Microsoft.Cpp.Default.props) -->
-    <!-- <ConfigurationType>StaticLibrary</ConfigurationType>  --> 
-    
+    <!-- <ConfigurationType>StaticLibrary</ConfigurationType>  -->
     <!-- If you want to customize 'cast-folder' for this project,  change RemoteRootDir and RemoteProjectRelDir,
          Source code files in your .vcxproj will be cast-copy to Linux machine's 
          $(RemoteRootDir)/$(RemoteProjectRelDir) folder. 
@@ -93,9 +101,12 @@
     -->
     <RemoteRootDir>~/projects/tlpi-book</RemoteRootDir>
     <RemoteProjectRelDir>$(ProjectName)</RemoteProjectRelDir>
-    
+    <RemoteDeployDir>$(RemoteRootDir)</RemoteDeployDir>
+    <!-- HE: $HOME Expansion-->
+    <HE_RemoteRootDir>$(RemoteRootDir.Replace('~', '$HOME'))</HE_RemoteRootDir>
+    <!-- This converts D:\sln\dir\ into /mnt/d/sln/dir -->
+    <wsl_SlnDir>/mnt/$(SolutionDir.SubString(0,1).ToLower())/$(SolutionDir.SubString(3).Replace('\','/').TrimEnd('/'))</wsl_SlnDir>
   </PropertyGroup>
-  
   <!-- Debug or Release -->
   <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -103,9 +114,7 @@
   <PropertyGroup Condition="$(Configuration.StartsWith('Release'))" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
   </PropertyGroup>
-  
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -113,16 +122,12 @@
   <ImportGroup Label="PropertySheets">
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-
-
   <ImportGroup Label="PropertySheets">
     <Import Project="..\_vslinux_sln\envvars.props" Condition="exists('..\_vslinux_sln\envvars.props')" />
     <Import Project="..\_vslinux_sln\import-tlpi-lib.props" />
-	
-	<!-- Import EXE shared compiler/linker options for TLPI. -->
+    <!-- Import EXE shared compiler/linker options for TLPI. -->
     <Import Project="..\_vslinux_sln\exe-share.props" />
   </ImportGroup>
-
   <!-- 
 	Take Ubuntu Linux 22.04 for example, in order to have x86 and x64 compiler installed,
     extra packages should be installed:
@@ -143,22 +148,27 @@
   <PropertyGroup Condition="'$(Platform)'=='x86'">
     <VSLINUX_GCC_PREFIX>$(VSLINUX_GCC_PREFIX_X86)</VSLINUX_GCC_PREFIX>
     <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_X86)'==''">i686-linux-gnu-</VSLINUX_GCC_PREFIX>
-    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_X86)'=='none'"></VSLINUX_GCC_PREFIX>
+    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_X86)'=='none'">
+    </VSLINUX_GCC_PREFIX>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'">
     <VSLINUX_GCC_PREFIX>$(VSLINUX_GCC_PREFIX_X64)</VSLINUX_GCC_PREFIX>
     <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_X64)'==''">x86_64-linux-gnu-</VSLINUX_GCC_PREFIX>
-    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_X64)'=='none'"></VSLINUX_GCC_PREFIX>
+    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_X64)'=='none'">
+    </VSLINUX_GCC_PREFIX>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='ARM'">
     <VSLINUX_GCC_PREFIX>$(VSLINUX_GCC_PREFIX_ARM)</VSLINUX_GCC_PREFIX>
+    <!-- Memo: Use arm-linux-gnueabi- for soft-float . -->
     <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM)'==''">arm-linux-gnueabihf-</VSLINUX_GCC_PREFIX>
-    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM)'=='none'"></VSLINUX_GCC_PREFIX>
+    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM)'=='none'">
+    </VSLINUX_GCC_PREFIX>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <VSLINUX_GCC_PREFIX>$(VSLINUX_GCC_PREFIX_ARM64)</VSLINUX_GCC_PREFIX>
     <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM64)'==''">aarch64-linux-gnu-</VSLINUX_GCC_PREFIX>
-    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM64)'=='none'"></VSLINUX_GCC_PREFIX>
+    <VSLINUX_GCC_PREFIX Condition="'$(VSLINUX_GCC_PREFIX_ARM64)'=='none'">
+    </VSLINUX_GCC_PREFIX>
   </PropertyGroup>
   <!-- . -->
   <PropertyGroup>
@@ -166,17 +176,16 @@
     <RemoteCppCompileToolExe>$(VSLINUX_GCC_PREFIX)g++</RemoteCppCompileToolExe>
     <RemoteLdToolExe>$(VSLINUX_GCC_PREFIX)g++</RemoteLdToolExe>
   </PropertyGroup>
-  <!-- Pending Q: when to use arm-linux-gnueabihf-g++ ? -->
-  
   <!-- Adaptive .obj/.exe/.pdb output folder structure -->
-  
   <PropertyGroup>
     <objdirsuffix Condition="$(SolutionName)!=$(ProjectName)">.$(ProjectName)</objdirsuffix>
-     <IntDir>$(ProjectDir)obj.linux$(objdirsuffix)\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(ProjectDir)obj.linux$(objdirsuffix)\$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin.linux\$(Platform)\$(Configuration)\</OutDir>
     <RemoteIntRelDir>$(RemoteProjectRelDir)/obj.linux/$(Platform)/$(Configuration)</RemoteIntRelDir>
-    <RemoteOutRelDir>$(RemoteProjectRelDir)/bin.linux/$(Platform)/$(Configuration)</RemoteOutRelDir>
-
+    <RemoteOutRelDir>bin.linux/$(Platform)/$(Configuration)</RemoteOutRelDir>
+    <cs_RemoteOutAbsDir>$(RemoteRootDir)/$(RemoteOutRelDir)</cs_RemoteOutAbsDir>
+    <HE_RemoteOutAbsDir>$(HE_RemoteRootDir)/$(RemoteOutRelDir)</HE_RemoteOutAbsDir>
+    <wsl_OutDir>$(wsl_SlnDir)/bin.linux/$(Platform)/$(Configuration)</wsl_OutDir>
     <!-- [20230326.R1] This is to workround a possible VS2019 16.11 VSLinux bug: 
       When launching WSL_1_0 exe, VSIDE will go hard to launch exe inside:
         /mnt/d/gitw/Templates/vs2019/t_stat/bin/x64/Debug-WSL-gcc
@@ -187,14 +196,14 @@
       into t_stat.vcxproj.user to make it work.
     -->
     <DebuggerWorkingDirectory>$(OutDir)</DebuggerWorkingDirectory>
-
     <!-- [20230326.R2] Chj: Workaround for a special project trait on VC2019 VSLinux. 
-      If .sln is in parent path of .vcxproj, Remote_GCC_1_0 tries to launch wrong exe path on Linux. So we need this.
+      If .sln is in parent path of .vcxproj, Remote_GCC_1_0 tries to launch wrong exe path on Linux. 
+      So we need to define <RemoteDebuggerCommand> explicitly.
     -->
-    <remote_TargetExe>$(RemoteDeployDir)/bin.linux/$(Platform)/$(Configuration)/$(TargetName)$(TargetExt)</remote_TargetExe>
-    <RemoteDebuggerCommand Condition="$(Configuration.EndsWith('-remote-gcc'))">$(remote_TargetExe)</RemoteDebuggerCommand>
+    <cs_RemoteTargetPathExe Condition="$(Configuration.EndsWith('-remote-gcc'))">$(cs_RemoteOutAbsDir)/$(TargetName)$(TargetExt)</cs_RemoteTargetPathExe>
+    <cs_RemoteTargetPathExe Condition="$(Configuration.EndsWith('-WSL-gcc'))">$(wsl_OutDir)/$(TargetName)$(TargetExt)</cs_RemoteTargetPathExe>
+    <RemoteDebuggerCommand>$(cs_RemoteTargetPathExe)</RemoteDebuggerCommand>
   </PropertyGroup>
-
   <!-- 
   	You may need to add this to your .vcxproj.user, 
   	to make final executable file have x(execution) bit on Linux.
@@ -203,26 +212,36 @@
   	copy extra executables.
 
      <PropertyGroup>
-  		<PreLaunchCommand>chmod +x $(RemoteOutDir)/$(TargetFilename)</PreLaunchCommand>
+  		<PreLaunchCommand>chmod +x $(HE_RemoteOutAbsDir)/$(TargetFilename)</PreLaunchCommand>
      </PropertyGroup>
   	
   -->
-
-
   <!-- 
   	Compiler/Linker Behavior Settings : Debug/Release shared 
   -->
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>;;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./extra-includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <!-- 
+      <AdditionalOptions>-fPIC %(AdditionalOptions)</AdditionalOptions>
+       -->
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>;;./myextralib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <!-- To link a library(resolv, pthread), pick either form below: -->
+      <AdditionalDependencies>;;-lresolv;%(AdditionalDependencies)</AdditionalDependencies>
+      <LibraryDependencies>;;pthread;%(LibraryDependencies)</LibraryDependencies>
+      <GenerateMapFile Condition="$(Configuration.EndsWith('-remote-gcc'))">$(HE_RemoteOutAbsDir)/$(TargetFilename).map</GenerateMapFile>
+      <GenerateMapFile Condition="$(Configuration.EndsWith('-WSL-gcc'))">$(wsl_OutDir)/$(TargetFilename).map</GenerateMapFile>
+      <!-- 
+      <AdditionalOptions>-static %(AdditionalOptions)</AdditionalOptions>
+       -->
     </Link>
     <RemotePostBuildEvent Condition="$(TLPI_POSTBUILD_RUN_ROOT)==1">
-      <!-- You can enable RemotePostBuildEvent commands if needed:
-      <Command>sudo chown root.root $(remote_TargetExe) ; sudo chmod u+s $(remote_TargetExe)</Command>
+      <!-- If you want to do sth to the output exe from Linux machine's perspective, enable the <Command> below.
       <Message>Making the target executable set-UID-root. You should have set your Linux user to allow silent sudo.</Message>
+      <Command>sudo chown root.root $(remote_TargetExe) ; sudo chmod u+s $(remote_TargetExe)</Command>
        -->
     </RemotePostBuildEvent>
     <!-- Better build.log file naming -->
@@ -230,7 +249,6 @@
       <Path>$(IntDir)__$(MSBuildProjectName).build.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
-  
   <!-- 
   	Compiler Behavior Settings : Debug 
   -->
@@ -242,18 +260,16 @@
     <Link>
     </Link>
   </ItemDefinitionGroup>
-  
   <!-- 
   	Compiler Behavior Settings : Release 
   -->
   <ItemDefinitionGroup Condition="$(Configuration.StartsWith('Release'))">
     <ClCompile>
-      <PreprocessorDefinitions>_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
     </Link>
   </ItemDefinitionGroup>
-  
   <!-- 
     Source file list:
    -->
@@ -265,19 +281,16 @@
     <ClInclude Include="ps_headers.h" />
      -->
   </ItemGroup>
-  
   <!-- MSBuild system stock Cpp.targets -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-
   <!-- import VSPG start -->
   <PropertyGroup>
     <VSPG_BootsDir_NoTBS>..\..\__VSPG\_VSPG\boots</VSPG_BootsDir_NoTBS>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(VSPG_BootsDir_NoTBS)\_VSPG.props" Condition="exists('$(VSPG_BootsDir_NoTBS)\_VSPG.props')"/>
+    <Import Project="$(VSPG_BootsDir_NoTBS)\_VSPG.props" Condition="exists('$(VSPG_BootsDir_NoTBS)\_VSPG.props')" />
   </ImportGroup>
   <!-- import VSPG end -->
-
 </Project>
