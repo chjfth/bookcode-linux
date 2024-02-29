@@ -55,7 +55,7 @@ displayStatInfo(const struct stat *sb)
 
 	printf("I-node number:            %ld\n", (long) sb->st_ino);
 
-	printf("Mode:                     %lo (%s)\n",
+	printf("Mode:                     octal: %lo (%s)\n",
 			(unsigned long) sb->st_mode, filePermStr(sb->st_mode, 0));
 
 	if (sb->st_mode & (S_ISUID | S_ISGID | S_ISVTX))

@@ -26,22 +26,25 @@
 int
 main(int argc, char *argv[])
 {
-    char *pathname;
-    struct stat sb;
-    struct utimbuf utb;
+	char *pathname;
+	struct stat sb;
+	struct utimbuf utb;
 
-    if (argc != 2 || strcmp(argv[1], "--help") == 0)
-        usageErr("%s file\n", argv[0]);
+	if (argc != 2 || strcmp(argv[1], "--help") == 0)
+	{
+		printf("This program set a file's modification time to current time.\n");
+		usageErr("%s file\n", argv[0]);
+	}
 
-    pathname = argv[1];
+	pathname = argv[1];
 
-    if (stat(pathname, &sb) == -1)    /* Retrieve current file times */
-        errExit("stat");
+	if (stat(pathname, &sb) == -1)    /* Retrieve current file times */
+		errExit("stat");
 
-    utb.actime = sb.st_atime;         /* Leave access time unchanged */
-    utb.modtime = sb.st_atime;        /* Make modify time same as access time */
-    if (utime(pathname, &utb) == -1)  /* Update file times */
-        errExit("utime");
+	utb.actime = sb.st_atime;         /* Leave access time unchanged */
+	utb.modtime = sb.st_atime;        /* Make modify time same as access time */
+	if (utime(pathname, &utb) == -1)  /* Update file times */
+		errExit("utime");
 
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
