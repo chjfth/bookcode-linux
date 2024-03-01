@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{20240302-0000-0000-0000-001504000001}</ProjectGuid>
+    <ProjectName>15-x2.t_utimes</ProjectName>
+    <TargetName>t_utimes</TargetName>
+  </PropertyGroup>
+
+  <!-- 
+    Source file list:
+   -->
+  <ItemGroup>
+    <ClCompile Include="t_utimes.cpp" />
+  </ItemGroup>
+
+  <Import Project="..\_vslinux_sln\exe-skeleton.props" />
+
+</Project>

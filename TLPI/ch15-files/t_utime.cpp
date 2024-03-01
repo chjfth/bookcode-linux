@@ -32,7 +32,7 @@ main(int argc, char *argv[])
 
 	if (argc != 2 || strcmp(argv[1], "--help") == 0)
 	{
-		printf("This program set a file's modification time to current time.\n");
+		printf("This program sets a file's Modification-time(.modtime) to be the same as Access-time(.actime) .\n");
 		usageErr("%s file\n", argv[0]);
 	}
 

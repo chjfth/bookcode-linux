@@ -31,7 +31,10 @@ main(int argc, char *argv[])
     struct timeval tv[2];
 
     if (argc != 2 || strcmp(argv[1], "--help") == 0)
+    {
+        printf("This program shows how to set file-time's microseconds part, using utimes() .\n");
         usageErr("%s file\n", argv[0]);
+    }
 
     if (stat(argv[1], &sb) == -1)       /* Retrieve current file times */
         errExit("stat");
