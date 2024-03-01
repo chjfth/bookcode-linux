@@ -10,15 +10,22 @@
 
 /* demo_file_caps.c
 
-   Display process credentials and capabilities, and attempt to open the
-   file named in argv[1].
+  Display process credentials and capabilities, and attempt to open the
+  file named in argv[1].
 
-   This program can be used to do a simple demonstration of file capabilities.
-   If the executable is assigned the CAP_DAC_READ_SEARCH capability:
+  This program can be used to do a simple demonstration of file capabilities.
+  If the executable is assigned the CAP_DAC_READ_SEARCH capability:
 
-		setcap cap_dac_read_search=pe
+	setcap cap_dac_read_search=pe
 
-   then it can open any file for reading.
+  then it can open any file for reading.
+
+  [2024-03-01] Chj note: If envvar TLPI_POSTBUILD_RUN_ROOT=1,
+  In this .vcxproj's <RemotePostBuildEvent>, I will do
+
+	sudo setcap "cap_dac_read_search=pe" demo_file_caps.out
+
+  automatically.	
 */
 #include <sys/capability.h>
 #include <unistd.h>
