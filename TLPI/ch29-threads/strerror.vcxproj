@@ -254,9 +254,7 @@
     <ClCompile Include="strerror_test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <!-- 
-    <ClInclude Include="ps_headers.h" />
-     -->
+    <ClInclude Include="strerror_fillbuf.h" />
   </ItemGroup>
   
   <ImportGroup Label="PropertySheets">

@@ -26,6 +26,7 @@
 #include <string.h>                 /* Get declaration of strerror() */
 #include <pthread.h>
 #include "tlpi_hdr.h"
+#include "strerror_fillbuf.h"
 
 static pthread_once_t once = PTHREAD_ONCE_INIT;
 static pthread_key_t strerrorKey;
@@ -74,12 +75,7 @@ strerror(int err)
 			errExitEN(s, "pthread_setspecific");
 	}
 
-	if (err < 0 || err >= _sys_nerr || _sys_errlist[err] == NULL) {
-		snprintf(buf, MAX_ERROR_LEN, "Unknown error %d", err);
-	} else {
-		strncpy(buf, _sys_errlist[err], MAX_ERROR_LEN - 1);
-		buf[MAX_ERROR_LEN - 1] = '\0';          /* Ensure null termination */
-	}
+	strerror_fillbuf(err, buf, MAX_ERROR_LEN);
 
 	return buf;
 }
