@@ -27,19 +27,26 @@ REM ======== Now start our work ========
 call :EchoAndExec myexe "%param1%" "%param2%"
 
 for %%i in (%sln_spec%) do (
+	set prjpath=%%~i
 	title %%~ni
+
+:AGAIN
 	echo ======================================================================
-	echo %%~i
+	echo !prjpath!
 	echo ======================================================================
-	call :EchoAndExec msbuild -property:Configuration=Debug-remote-gcc;Platform=x64 "%%~i"
+	call :EchoAndExec msbuild -property:Configuration=Debug-remote-gcc;Platform=x64 "!prjpath!"
 	if !errorlevel!==0 (
 	    REM success
 	) else (
 	    echo ======================================================================
-	    echo FAILED: %%~i
+	    echo FAILED: !prjpath!
 	    echo ======================================================================
 	    CHOICE /C YN /M "Retry now?"
-	    if not !errorlevel!==1 exit /b
+	    if !errorlevel!==1 (
+	    	goto :AGAIN
+	    ) else (
+	    	exit /b 4
+	    )
 	)
 )
 

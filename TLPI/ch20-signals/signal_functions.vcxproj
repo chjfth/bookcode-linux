@@ -2,16 +2,16 @@
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{20240302-0000-0000-0000-043326000001}</ProjectGuid>
-    <ProjectName>0x.catch_SIGHUP</ProjectName>
-    <TargetName>catch_SIGHUP</TargetName>
+    <ProjectGuid>{20240103-0000-0000-0000-213922000001}</ProjectGuid>
+    <ProjectName>20-4.signal_functions</ProjectName>
+    <TargetName>signal_functions</TargetName>
   </PropertyGroup>
 
   <!-- 
     Source file list:
    -->
   <ItemGroup>
-    <ClCompile Include="catch_SIGHUP.cpp" />
+    <ClCompile Include="signal_functions.cpp" />
     <!-- 
     <ClInclude Include="myheader.h" />
      -->
