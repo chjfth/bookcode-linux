@@ -148,7 +148,7 @@
     <Import Project="envvars.props" Condition="exists('envvars.props')" />
     <Import Project="import-tlpi-lib.props" />
 	
-	<!-- Import EXE shared compiler/linker options for TLPI. -->
+	<!-- Import EXE shared compiler/linker options. -->
     <Import Project="exe-share.props" />
   </ImportGroup>
 
@@ -272,13 +272,6 @@
       <AdditionalOptions>-static %(AdditionalOptions)</AdditionalOptions>
        -->
     </Link>
-
-    <RemotePostBuildEvent Condition="$(TLPI_POSTBUILD_RUN_ROOT)==1">
-      <!-- If you want to do sth to the output exe from Linux machine's perspective, enable the <Command> below.
-      <Message>Making the target executable set-UID-root. You should have set your Linux user to allow silent sudo.</Message>
-      <Command>sudo chown root.root $(remote_TargetExe) ; sudo chmod u+s $(remote_TargetExe)</Command>
-       -->
-    </RemotePostBuildEvent>
 
     <!-- Better build.log file naming -->
     <BuildLog>
