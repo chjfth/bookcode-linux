@@ -19,7 +19,7 @@
 #include "file_perms.h"
 #include "tlpi_hdr.h"
 
-#define MYFILE "myfile"
+#define MYFILE "myfile.txt"
 #define MYDIR  "mydir"
 #define FILE_PERMS    (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP) // rw-rw----
 #define DIR_PERMS     (S_IRWXU | S_IRWXG | S_IRWXO)           // rwxrwxrwx
@@ -28,21 +28,18 @@
 int
 main(int argc, char *argv[])
 {
-	int fd;
-	struct stat sb;
-	mode_t u;
-
 	umask(UMASK_SETTING);
 
-	fd = open(MYFILE, O_RDWR | O_CREAT | O_EXCL, FILE_PERMS);
+	int fd = open(MYFILE, O_RDWR | O_CREAT | O_EXCL, FILE_PERMS);
 	if (fd == -1)
-		errExit("open-%s", MYFILE);
+		errExit("create '%s'", MYFILE);
 
 	if (mkdir(MYDIR, DIR_PERMS) == -1)
-		errExit("mkdir-%s", MYDIR);
+		errExit("mkdir '%s'", MYDIR);
 
-	u = umask(0);               /* Retrieves (and clears) umask value */
+	mode_t u = umask(0);     /* Retrieves (and clears) umask value */
 
+	struct stat sb = {};
 	if (stat(MYFILE, &sb) == -1)
 		errExit("stat-%s", MYFILE);
 
