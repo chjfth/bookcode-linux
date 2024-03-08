@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{20240309-0000-0000-0000-005130000001}</ProjectGuid>
+    <ProjectName>16-1.xattr_view</ProjectName>
+    <TargetName>xattr_view</TargetName>
+  </PropertyGroup>
+
+  <!-- 
+    Source file list:
+   -->
+  <ItemGroup>
+    <ClCompile Include="xattr_view.cpp" />
+    <!-- 
+    <ClInclude Include="myheader.h" />
+     -->
+  </ItemGroup>
+
+
+  <!--################################################-->
+  <Import Project="..\_vslinux_sln\exe-skeleton.props" />
+  <!--################################################-->
+
+
+  <!-- 
+    Compile/Link options:
+   -->
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <!-- 
+      <PreprocessorDefinitions>;;MYMACRO=myval;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./my-extra-headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       -->
+    </ClCompile>
+    <Link>
+      <!-- 
+      <LibraryDependencies>crypt;%(LibraryDependencies)</LibraryDependencies>
+       -->
+    </Link>
+    <RemotePostBuildEvent Condition="$(TLPI_POSTBUILD_RUN_ROOT)==1">
+      <!-- If you want to do sth to the output exe from Linux machine's perspective, enable the <Command> below.
+      <Message>Making the target executable set-UID-root. You should have set your Linux user to allow silent sudo.</Message>
+      <Command>sudo chown root.root $(cs_RemoteTargetPathExe) ; sudo chmod u+s $(cs_RemoteTargetPathExe)</Command>
+       -->
+    </RemotePostBuildEvent>
+  </ItemDefinitionGroup>
+
+</Project>

@@ -24,18 +24,18 @@
 int
 main(int argc, char *argv[])
 {
-    char *value;
+	const char *value = nullptr;
 
-    if (argc < 2 || strcmp(argv[1], "--help") == 0)
-        usageErr("%s file\n", argv[0]);
+	if (argc < 2 || strcmp(argv[1], "--help") == 0)
+		usageErr("%s file\n", argv[0]);
 
-    value = "The past is not dead.";
-    if (setxattr(argv[1], "user.x", value, strlen(value), 0) == -1)
-        errExit("setxattr");
+	value = "The past is not dead.";
+	if (setxattr(argv[1], "user.x", value, strlen(value), 0) == -1)
+		errExit("setxattr");
 
-    value = "In fact, it's not even past.";
-    if (setxattr(argv[1], "user.y", value, strlen(value), 0) == -1)
-        errExit("setxattr");
+	value = "In fact, it's not even past.";
+	if (setxattr(argv[1], "user.y", value, strlen(value), 0) == -1)
+		errExit("setxattr");
 
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
